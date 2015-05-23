@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
 
-  def authenticate_user
-    redirect_to(new_customer_session_path) if current_customer.nil?
+  def authenticate_user!
+    redirect_to('/') if current_user.id != params[:id].to_i
   end
 end

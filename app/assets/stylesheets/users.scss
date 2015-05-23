@@ -1,8 +1,52 @@
 header{
-  background-color: transparent;
+  position: relative;
+  background-color: blue;
   width: 100%;
   height:20%;
   font-size: 20pt;
+}
+body{
+  position: relative;
+  top: 20%;
+}
+
+.small-avatar{
+  width: 50px;
+}
+
+li{
+  box-decoration-break: none;
+  display: inline;
+  direction: horizontal;
+}
+
+.profile-panel{
+  float: left;
+  width: 50%;
+}
+
+.control-panel{
+  float: right;
+  width: 50%;
+  text-align: right;
+}
+
+.panel{
+  position: relative;
+  height: 1000px;
+  width: 40%;
+  background-color: #F3E2A9;
+  margin: 2%;
+}
+
+.user-info{
+  float: left;
+  width: 30%;
+}
+
+.current-decks{
+  float: right;
+  width: 60%;
 }
 
 .landing-image{
