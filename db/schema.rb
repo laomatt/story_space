@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522190937) do
+ActiveRecord::Schema.define(version: 20150524183349) do
 
   create_table "card_relationships", force: :cascade do |t|
     t.string   "type_of_relation"
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 20150522190937) do
     t.string   "bio"
     t.string   "setting"
     t.string   "tag_line"
-    t.integer  "creator"
     t.integer  "deck_id"
+    t.integer  "user_id"
     t.string   "stories"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,8 +36,17 @@ ActiveRecord::Schema.define(version: 20150522190937) do
     t.string   "name"
     t.text     "story"
     t.string   "category"
+    t.string   "tag_line"
     t.string   "setting"
     t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "passages", force: :cascade do |t|
+    t.integer  "deck_id"
+    t.integer  "user_id"
+    t.text     "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

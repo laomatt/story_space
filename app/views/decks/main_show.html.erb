@@ -1,0 +1,33 @@
+
+
+<div class="search-bar">
+  <form class="search-title-form">
+    <input type="text" placeholder="search titles">
+    <input type="submit" value="search">
+  </form>
+</div>
+
+
+
+<div id="welcome" class="welcome">
+</div>
+
+
+<script>
+
+$.ajax({
+  url: '/decks',
+})
+.done(function(data) {
+  // debugger
+  console.log(data);
+  var context = { decks: data};
+  var source = $("#deck-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#welcome').html(html)
+
+})
+
+</script>
+

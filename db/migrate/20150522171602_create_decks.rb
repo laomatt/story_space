@@ -4,6 +4,7 @@ class CreateDecks < ActiveRecord::Migration
       t.string :name
       t.text :story
       t.string :category
+      t.string :tag_line
       t.string :setting
       t.references :user
       t.timestamps null: false

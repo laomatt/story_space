@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FlashCardsProjectRails</title>
+  <title>Create a Lot</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,13 +10,17 @@
   <%if user_signed_in? %>
 
   <div class="profile-panel">
+    <h2>
     <li><img class="small-avatar" src="<%= current_user.avatar %>"></li>
     <li><a class="dash-link" href="/users/<%= current_user.id %>"><%=current_user.name%></a></li>
+    </h2>
   </div>
 
 
   <div class="control-panel">
-    <li><a class="comm-link" href="/decks">Community</a></li>
+    <li><a class="notifications" href="#">Notifications</a></li>
+    <li><a class="comm-link" href="/comm_page">Community Stories</a></li>
+    <li><a class="char-link" href="/char_page">Availiable Characters</a></li>
     <li><a class="create-link" href="#">Create</a></li>
     <li><a class="logout-link" href="/users/log_out">Logout</a></li>
   </div>
@@ -33,8 +37,8 @@
   <div class="control-panel">
    <li>  <a href="#" class="login-link">login</a></li>
    <li> <a href="#" class="signup-link">sign-up</a></li>
-  </div>
-  <%end%>
+ </div>
+ <%end%>
 
 </header>
 <br><br>
@@ -45,3 +49,89 @@
 
 </body>
 </html>
+
+
+<script id="user-deck-template" type="text/x-handlebrs-template">
+{{#each decks}}
+
+<div class="deck-display user-deck-display">
+
+<br>
+<h2>{{deck.name}}</h2>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{deck.tag_line}}</p>
+
+</div>
+
+
+{{/each}}
+</script>
+
+
+<script id="user-card-template" type="text/x-handlebrs-template">
+{{#each cards}}
+
+<div class="card-display-template">
+
+<br>
+<h2>{{card.name}}</h2>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{card.tag_line}}</p>
+
+</div>
+
+
+{{/each}}
+</script>
+
+
+
+
+<script id="card-template" type="text/x-handlebrs-template">
+{{#each cards}}
+
+<div class="card-display">
+
+<br>
+<h2>{{card.name}}</h2>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{card.tag_line}}</p>
+
+</div>
+
+
+{{/each}}
+</script>
+
+
+<script id="deck-template" type="text/x-handlebrs-template">
+{{#each decks}}
+
+<div class="deck-display">
+<img class="template-avatar" src="{{user.avatar}}">
+<br><br>
+<h4>{{deck.name}}</h4>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{deck.tag_line}}</p>
+
+
+</div>
+
+
+{{/each}}
+</script>
+
+
+

@@ -1,10 +1,43 @@
 
+<div id="user-info" player_id="<%=current_user.id%>">
+  <div class="panel user-info">
 
-<div class="panel user-info"></div>
-<div class="panel current-decks">
-
-<% @user_decks.each do |deck| %>
-<%= deck %>
-<% end %>
+    <div class="users-stats" id="users-stats"></div>
+    <div class="users-cards" id="current-cards"></div>
+  </div>
 
 </div>
+<div class="panel current-decks" id="current-decks">
+
+</div>
+
+<script>
+
+$.ajax({
+  url: '/user_decks/'+$("#user-info").attr("player_id"),
+})
+.done(function(data) {
+  var context = { decks: data};
+  var source = $("#user-deck-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-decks').html(html)
+
+})
+
+
+$.ajax({
+  url: '/user_cards/'+$("#user-info").attr("player_id"),
+})
+.done(function(data) {
+    var context = { cards: data};
+  var source = $("#user-card-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-cards').html(html)
+})
+
+
+
+</script>
+

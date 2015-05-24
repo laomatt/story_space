@@ -1,0 +1,30 @@
+
+<div class="search-bar">
+  <form class="search-characters-form">
+    <input type="text" placeholder="search characters">
+    <input type="submit" value="search">
+  </form>
+</div>
+
+
+<div id="card-display-area" class="welcome"></div>
+
+
+<script>
+  $.ajax({
+    url: '/cards',
+  })
+  .done(function(data) {
+  // debugger
+  // console.log(data);
+  var context = { cards: data};
+  var source = $("#card-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#card-display-area').html(html)
+
+})
+
+
+</script>
+

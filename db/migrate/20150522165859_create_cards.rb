@@ -5,8 +5,8 @@ class CreateCards < ActiveRecord::Migration
       t.string :bio
       t.string :setting
       t.string :tag_line
-      t.integer :creator
       t.references :deck
+      t.references :user
       t.string :stories
       t.timestamps null: false
     end

@@ -1,14 +1,23 @@
 header{
-  position: relative;
-  background-color: transparent;
+  position: fixed;
+  background-color: white;
   width: 100%;
   height:10%;
   font-size: 20pt;
+  z-index: 10;
+}
+
+a{
+  text-decoration: none;
 }
 
 
 .small-avatar{
+  background-color: yellow;
   width: 50px;
+  border-radius: 100px;
+  border-style: solid;
+  border-color: red;
 }
 
 li{
@@ -19,8 +28,9 @@ li{
 
 .panel{
   position: relative;
-  height: 1000px;
+  height: 1500px;
   width: 40%;
+  top: 75px;
   background-color: #F3E2A9;
   margin: 2%;
 }
@@ -45,8 +55,25 @@ li{
 .current-decks{
   float: right;
   width: 60%;
+  overflow: scroll;
 }
 
+
+.users-stats{
+  background-color: red;
+position: relative;
+  width: 100%;
+  height: 20%;
+
+}
+
+.users-cards{
+  position: relative;
+  width: 100%;
+  height: 50%;
+  overflow: scroll;
+
+}
 .landing-image{
   position: absolute;
   width: 100%;
@@ -56,6 +83,32 @@ li{
   display: block;
 }
 
+.card-display-area{
+  position: absolute;
+  width: 80%;
+  height: 2000px;
+  top: 20%;
+  float: right;
+  left: 10%;
+  background-color: red;
+  display: block;
+  overflow: scroll;
+}
+
+.card-display-template{
+    position: relative;
+  width: 20%;
+  height: 400px;
+  background-color: white;
+  /*text-align: left;*/
+  display: inline-block;
+  direction: horizontal;
+  margin: 1%;
+  overflow: scroll;
+  padding: 1%;
+
+
+}
 
 .login-form{
   position: absolute;
@@ -105,9 +158,11 @@ li{
   text-align: center;
   padding: 4%;
   font-size: 20pt;
+  display: inline;
   width: 80%;
-  /*height:40%;*/
+  height:40%;
   z-index: 3;
+  overflow: scroll;
 }
 .search-bar{
   position: absolute;
@@ -116,4 +171,59 @@ li{
   height: 50px;
   width: 100%;
   text-align: center;
+}
+
+
+.search-char-bar{
+  position: absolute;
+  top: 10%;
+}
+
+.deck-display{
+  position: relative;
+  width: 20%;
+  height: 400px;
+  background-color: white;
+  /*text-align: left;*/
+  display: inline-block;
+  direction: horizontal;
+  margin: 1%;
+  overflow: scroll;
+  padding: 1%;
+}
+
+.card-display{
+    position: relative;
+  width: 20%;
+  height: 400px;
+  background-color: white;
+  /*text-align: left;*/
+  display: inline-block;
+  direction: horizontal;
+  margin: 1%;
+  overflow: scroll;
+  padding: 1%;
+}
+
+.user-deck-display{
+  height: 60%;
+  width: 45%;
+}
+
+.deck-display#h4{
+  top: 50%;
+}
+
+.template-avatar{
+  position: absolute;
+  float: right;
+  top: -5%;
+  right: -5%;
+  width: 100px;
+  background-color: yellow;
+  border-radius: 100px;
+  border-style: solid;
+  border-color: red;
+  z-index: 5;
+
 }

@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations'}
 
+  get '/comm_page' => 'decks#main_show'
+  get '/char_page' => 'cards#main_show'
+  get '/user_decks/:id' => 'decks#user_show'
+  get '/user_cards/:id' => 'cards#user_show'
+
   devise_scope :user do
     post 'new_registration' => 'registrations#new'
     get 'new_user_session' => 'sessions#new'
