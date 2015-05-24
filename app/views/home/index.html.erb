@@ -1,14 +1,26 @@
 
 <div class="landing-image"></div>
 
+<div class="search-bar">
+<form class="search-form">
 
-<div class="welcome-container">
-  <div class="welcome">
-    <a href="#" class="login-link">login</a><br>
-    <a href="#" class="signup-link">sign-up</a><br>
-  </div>
+  <input type="text" placeholder="search titles">
 
-    <div class="form">
+
+  <input type="submit" value="search">
+</form>
+
+</div>
+
+
+<div class="welcome">
+
+<% @decks.each do |deck| %>
+<%= deck %>
+<% end %>
+</div>
+
+<div class="form">
 
       <form id="login-form" class="login-form" method="GET" action="<%=new_user_session_path%>">
         username:<input type="text" name="email"><br>
@@ -22,12 +34,24 @@
       <form id="signup-form" action="<%=new_registration_path%>" method="POST" class="signup-form">
         email:<input type="text" name="email"><br>
         username:<input type="text" name="username"><br>
+        avatar url:<input type="text" name="avatar"><br>
         password:<input type="password" name="password"><br>
         Confirm password:<input type="password" name="confirm"><br>
         <input type="submit" value="signup">
         <a href="#" class="cancel-signup-link">cancel</a><br>
       </form>
 
-    </div>
 
 </div>
+
+<script id="requests-template" type="text/x-handlebrs-template">
+{{#each decks}}
+
+<li>
+
+
+</li>
+
+
+{{/each}}
+</script>

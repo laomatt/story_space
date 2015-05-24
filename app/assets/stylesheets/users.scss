@@ -1,14 +1,11 @@
 header{
   position: relative;
-  background-color: blue;
+  background-color: transparent;
   width: 100%;
-  height:20%;
+  height:10%;
   font-size: 20pt;
 }
-body{
-  position: relative;
-  top: 20%;
-}
+
 
 .small-avatar{
   width: 50px;
@@ -20,7 +17,15 @@ li{
   direction: horizontal;
 }
 
+.panel{
+  position: relative;
+  height: 1000px;
+  width: 40%;
+  background-color: #F3E2A9;
+  margin: 2%;
+}
 .profile-panel{
+  position: absolute;
   float: left;
   width: 50%;
 }
@@ -31,13 +36,6 @@ li{
   text-align: right;
 }
 
-.panel{
-  position: relative;
-  height: 1000px;
-  width: 40%;
-  background-color: #F3E2A9;
-  margin: 2%;
-}
 
 .user-info{
   float: left;
@@ -52,11 +50,12 @@ li{
 .landing-image{
   position: absolute;
   width: 100%;
-  height: 30%;
-  background-color: red;
+  height: 100%;
+  background-color: transparent;
   /*background-image:url("")*/
   display: block;
 }
+
 
 .login-form{
   position: absolute;
@@ -74,6 +73,7 @@ li{
 
 .welcome-container{
   position: absolute;
+  background-color: blue;
   bottom: 10%;
   height: 50%;
   width: 100%;
@@ -96,14 +96,24 @@ li{
 }
 
 .welcome{
-  position: relative;
-  top: 10%;
+  position: absolute;
+  top: 40%;
+  /*bottom: 10%;*/
+  right: 5%;
   background-color: yellow;
   margin: 0 auto;
   text-align: center;
   padding: 4%;
   font-size: 20pt;
-  width: 30%;
-  height: 50%;
+  width: 80%;
+  /*height:40%;*/
   z-index: 3;
+}
+.search-bar{
+  position: absolute;
+  top: 30%;
+  background-color: blue;
+  height: 50px;
+  width: 100%;
+  text-align: center;
 }

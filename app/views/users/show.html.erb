@@ -1,4 +1,10 @@
 
 
 <div class="panel user-info"></div>
-<div class="panel current-decks"></div>
+<div class="panel current-decks">
+
+<% @user_decks.each do |deck| %>
+<%= deck %>
+<% end %>
+
+</div>

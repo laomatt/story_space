@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   devise_scope :user do
     post 'new_registration' => 'registrations#new'
     get 'new_user_session' => 'sessions#new'
+    get '/users/log_out' => 'sessions#destroy'
   end
+
   resources :users
   resources :decks
   resources :cards

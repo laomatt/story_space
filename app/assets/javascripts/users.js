@@ -25,8 +25,5 @@ $(document).on('page:change', function() {
 
 
 
-  // $('body').on('submit', '.login-form', function(event) {
-
-  // });
 
 });

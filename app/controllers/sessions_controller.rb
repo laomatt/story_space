@@ -11,5 +11,12 @@ class SessionsController < DeviseController
     end
   end
 
+  def destroy
+    p 't'*90
+    # user = User.find_by(email:params[:email])
+    sign_out(current_user)
+    redirect_to '/'
+  end
+
 
 end

@@ -11,25 +11,34 @@
 
   <div class="profile-panel">
     <li><img class="small-avatar" src="<%= current_user.avatar %>"></li>
-    <li><a class="dash-link" href="#"><%=current_user.name%></a></li>
+    <li><a class="dash-link" href="/users/<%= current_user.id %>"><%=current_user.name%></a></li>
   </div>
 
 
   <div class="control-panel">
-    <li><a class="comm-link" href="#">Community</a></li>
+    <li><a class="comm-link" href="/decks">Community</a></li>
     <li><a class="create-link" href="#">Create</a></li>
-    <li><a class="logout-link" href="<%= destroy_user_session_path %>">Logout</a></li>
+    <li><a class="logout-link" href="/users/log_out">Logout</a></li>
   </div>
 
   <%else%>
-  No User signed in
+
+
+  <div class="profile-panel">
+    <li> No User signed in </li>
+
+  </div>
+
+
+  <div class="control-panel">
+   <li>  <a href="#" class="login-link">login</a></li>
+   <li> <a href="#" class="signup-link">sign-up</a></li>
+  </div>
   <%end%>
 
 </header>
 <br><br>
-<br><br>
 
-<hr>
 <body>
 
   <%= yield %>
