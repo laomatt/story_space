@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get '/user_cards' => 'cards#user_show'
   get '/edit_deck/:id' => 'decks#show_edit'
   get '/user_cast_cards' => 'decks#user_cast_cards'
+  patch '/deck_publish/:id' => 'decks#publish'
+  patch '/deck_unpublish/:id' => 'decks#unpublish'
   patch '/passage/approve_passage/:id' => 'passages#approve_passage'
   patch '/passage/disapprove_passage/:id' => 'passages#disapprove_passage'
   devise_scope :user do

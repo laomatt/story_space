@@ -15,7 +15,9 @@ class DecksController < ApplicationController
   def index
     output=[]
     Deck.all.each do |d|
-      output << {deck:d, user: User.find(d.user_id)}
+      if d.public==true
+        output << {deck:d, user: User.find(d.user_id)}
+      end
     end
     render :json => output.shuffle.first(28)
   end
@@ -45,6 +47,18 @@ class DecksController < ApplicationController
 
   def new
     @cards = Card.where(user_id:current_user.id)
+  end
+
+  def publish
+    deck = Deck.find(params[:id])
+    deck.update_attributes(public:true)
+    render :json => deck
+  end
+
+  def unpublish
+    deck = Deck.find(params[:id])
+    deck.update_attributes(public:false)
+    render :json => deck
   end
 
   def user_cast_cards

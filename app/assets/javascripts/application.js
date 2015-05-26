@@ -125,7 +125,7 @@ $('body').on('click', '.remove-this-card', function(event) {
 //sends a new story to the DB
 $('body').on('submit', '.create-new-deck', function(event) {
   event.preventDefault();
-
+  var that = $(this)
   var send_data = ""
   for(var t in current_cast){
     send_data+=current_cast[t]+","
@@ -137,8 +137,13 @@ $.ajax({
   data: {current_chars:send_data, name:$(this).find('input[name="title"]').val(), story:$(this).find('textarea[name="content"]').val(), category:$(this).find('input[name="genre"]').val(), tag_line:$(this).find('input[name="tag_line"]').val(), setting:$(this).find('input[name="setting"]').val(), genre:$(this).find('input[name="genre"]').val()},
 })
 .done(function() {
-  $(this).trigger('reset')
+  that.trigger('reset')
+  $("#story-created-notification").fadeIn(700, function() {
+    $("#story-created-notification").fadeOut(700, function() {
 
+    });
+  });
+  // setTimeout(700,$("#story-created-notification").fa)
 })
 
 
@@ -150,11 +155,39 @@ $.ajax({
 
 //makes a deck public
 
+$('body').on('click', '.publish-current-deck-link', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href');
+  $.ajax({
+    url: '/deck_publish/'+id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+$('#story-status-notification').html('This story has been published. <a href="'+id+'" class="unpublish-current-deck-link">Click here to unpublish this</a><br>')
+  })
+});
+
+//makes a deck private
+$('body').on('click', '.unpublish-current-deck-link', function(event) {
+  event.preventDefault();
+    var id = $(this).attr('href');
+  $.ajax({
+    url: '/deck_unpublish/'+id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+$('#story-status-notification').html('This story has not been published to the comunity yet. <a href="'+id+'" class="publish-current-deck-link">Click here to publish this</a>')
+  })
+});
+
 //makes a card availiable to others
 
 //destroys a card
 
-//destorys a deck
+//destroys a deck
+  //confirms with the user first
+
+  //deletes upon confirmation
 
 //destroys a passage
 })
