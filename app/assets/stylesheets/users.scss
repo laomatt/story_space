@@ -1,23 +1,71 @@
+html{
+  background-color: #F2F5A9;
+  font-family: Cambria, Georgia, serif;
+}
+
 header{
-  position: fixed;
-  background-color: white;
+  position: absolute;
+  background-color: #0B3861;
   width: 100%;
-  height:10%;
-  font-size: 20pt;
+  height:5%;
+  font-size: 14pt;
   z-index: 10;
+  padding: 2%;
+  color: white;
+}
+
+header a{
+  color: white;
+}
+
+li{
+  padding: 2px;
 }
 
 a{
   text-decoration: none;
 }
+body{
+  /*position: relative;*/
+  top: 10%;
+}
 
 
 .small-avatar{
-  background-color: yellow;
+  position: relative;
+  background-color: white;
   width: 50px;
   border-radius: 100px;
   border-style: solid;
   border-color: red;
+}
+
+.big-avatar{
+  width: 100px;
+  /*height: 100%;*/
+}
+
+.closing-button{
+  width: 50px;
+}
+
+.char-closing{
+  position: fixed;
+  top: 50%;
+  right: 5%;
+  z-index: 40;
+}
+
+.comm-drop{
+  position: absolute;
+  width: 25%;
+  right: 5%;
+  display: none;
+  border-color: white;
+  border-style: solid;
+  padding: 2px;
+  border-radius: 5px;
+  background-color: #0B3861;
 }
 
 li{
@@ -28,20 +76,29 @@ li{
 
 .panel{
   position: relative;
-  height: 1500px;
+  height: 800px;
   width: 40%;
   top: 75px;
   background-color: #F3E2A9;
   margin: 2%;
+  /*vertical-align: top;*/
 }
 .profile-panel{
   position: absolute;
+  background-color: transparent;
+
+  font-size: 35px;
+  /*line-height: 0pt;*/
   float: left;
-  width: 50%;
+  height: 70%;
+  top: 0%;
+  /*width: 50%;*/
 }
 
 .control-panel{
+  position: absolute;
   float: right;
+  right: 5%;
   width: 50%;
   text-align: right;
 }
@@ -50,6 +107,7 @@ li{
 .user-info{
   float: left;
   width: 30%;
+  padding: 1%;
 }
 
 .current-decks{
@@ -58,11 +116,21 @@ li{
   overflow: scroll;
 }
 
+.users-decks{
+  float: right;
+  width: 100%;
+  overflow: scroll;
+}
+
 
 .users-stats{
-  background-color: red;
-position: relative;
-  width: 100%;
+  background-color: #0B3861;
+  position: relative;
+  color: white;
+  text-align: 5%;
+  padding: 2%;
+  margin: 0 auto;
+  width: 90%;
   height: 20%;
 
 }
@@ -70,7 +138,8 @@ position: relative;
 .users-cards{
   position: relative;
   width: 100%;
-  height: 50%;
+  height: 70%;
+  /*bottom: 5%;*/
   overflow: scroll;
 
 }
@@ -96,9 +165,9 @@ position: relative;
 }
 
 .card-display-template{
-    position: relative;
-  width: 20%;
-  height: 400px;
+  position: relative;
+  width: 100%;
+  height: 200px;
   background-color: white;
   /*text-align: left;*/
   display: inline-block;
@@ -106,9 +175,13 @@ position: relative;
   margin: 1%;
   overflow: scroll;
   padding: 1%;
-
-
 }
+
+.create-new-story-cast-template{
+  width: 20%;
+}
+
+
 
 .login-form{
   position: absolute;
@@ -145,7 +218,7 @@ position: relative;
   border-style: solid;
   border-color: black;
   display: none;
-  z-index: 5
+  z-index: 25;
 }
 
 .welcome{
@@ -167,9 +240,10 @@ position: relative;
 .search-bar{
   position: absolute;
   top: 30%;
-  background-color: blue;
+  background-color: #0B3861;
   height: 50px;
   width: 100%;
+  line-height: 20px;
   text-align: center;
 }
 
@@ -182,18 +256,20 @@ position: relative;
 .deck-display{
   position: relative;
   width: 20%;
-  height: 400px;
+  height: 300px;
   background-color: white;
+  font-size: 12pt;
   /*text-align: left;*/
   display: inline-block;
   direction: horizontal;
+  border-radius: 10px;
   margin: 1%;
   overflow: scroll;
   padding: 1%;
 }
 
 .card-display{
-    position: relative;
+  position: relative;
   width: 20%;
   height: 400px;
   background-color: white;
@@ -206,7 +282,7 @@ position: relative;
 }
 
 .user-deck-display{
-  height: 60%;
+  height: 160px;
   width: 45%;
 }
 
@@ -215,15 +291,206 @@ position: relative;
 }
 
 .template-avatar{
-  position: absolute;
+  position: relative;
   float: right;
   top: -5%;
   right: -5%;
-  width: 100px;
+  width: 50px;
   background-color: yellow;
   border-radius: 100px;
   border-style: solid;
   border-color: red;
   z-index: 5;
+}
 
+.passage-avatar{
+  top: 0%;
+  right: 0%;
+}
+
+.new-link{
+  text-align: center;
+  font-size: 100px;
+  line-height: 150px;
+}
+
+.options-box{
+  position: relative;
+  float: right;
+}
+
+.passage-author-box{
+  position: relative;
+  float: left;
+}
+
+.comm-deck{
+  position: relative;
+  float: left;
+}
+
+
+.whole-story-display{
+  position: absolute;
+  font-size: 14pt;
+  top: 20%;
+  padding: 2%;
+  display: block;
+  background-color: #F6E3CE;
+  border-radius: 10px;
+  margin: 0 auto;
+  right: 10%;
+  width: 70%;
+  /*height: 70%;*/
+  z-index: 20;
+  overflow: scroll;
+  display: block;
+
+}
+
+.story-display{
+  top: 30%;
+}
+
+.passage{
+  padding: 4%;
+  border-radius: 10px;
+
+}
+
+.approved{
+  background-color: transparent;
+}
+
+.not_approved{
+  background-color: #F5A9A9;
+}
+
+.body-box{
+  position: relative;
+  left: 10%;
+  width:70%;
+  height: 400px;
+  font-size: 20pt;
+  padding: 2%;
+}
+
+
+.new-story-field{
+  position: relative;
+  width: 70%;
+  font-size: 20pt;
+  margin: 4px;
+}
+
+.search-bar-n{
+  width: 50%;
+}
+
+.search-title-form{
+  position: relative;
+  top: 30%;
+}
+
+.search-characters-form{
+  position: relative;
+  top: 30%;
+
+}
+.submit-button{
+  position: relative;
+  width: 30%;
+  font-size: 20pt;
+  height: 30%;
+  float: right;
+}
+
+.char-select-box{
+  position: relative;
+  width: 90%;
+  height: 90%;
+
+}
+
+.char-select-box-wrapper{
+  position: fixed;
+  background-color: #0B3861;
+  width: 100%;
+  height: 60%;
+  z-index: 30;
+  overflow: scroll;
+  text-align: center;
+  left: 0%;
+  top: 20%;
+  display: none;
+}
+
+.create-a-card{
+  position: fixed;
+  background-color: white;
+  padding: 2%;
+  left: 30%;
+  top: 10%;
+  height: 80%;
+  width: 30%;
+  z-index: 32;
+  border-color: blue;
+  border-style: solid;
+  font-size: 20pt;
+  display: none;
+  overflow: scroll;
+}
+
+
+.new-character-field{
+  width: 70%;
+  font-size: 20pt;
+}
+
+.new-character-bio{
+  position: relative;
+  left: 10%;
+  width:70%;
+  height: 200px;
+  font-size: 20pt;
+  padding: 2%;
+}
+
+.inspect-card-box{
+  position: fixed;
+  right: 20%;
+  top: 40%;
+  background-color: white;
+  padding: 5%;
+  width: 30%;
+  height: 30%;
+  display: none;
+  z-index: 33;
+  border-color: blue;
+  border-style: solid;
+  border-radius: 10px;
+  overflow: scroll;
+}
+
+.new-passage-container{
+  width: 90%;
+  height: 20%;
+  background-color: white;
+  padding: 2%;
+  border-radius: 10px;
+  display: none;
+}
+
+.new-passage-content{
+  width: 100%;
+  height: 100px;
+}
+
+.sent-banner{
+  position: relative;
+  background-color: green;
+  text-align: center;
+  color: white;
+  width: 100%;
+  display: none;
 }

@@ -1,0 +1,24 @@
+
+
+<div class="whole-story-display story-display" id="story-display">
+<div id="story-info" story_id="<%= @story.id%>"></div>
+
+<h2><%= @story.name %></h2>
+By <%= @author.name %>
+
+<p><%=  @story.story%></p>
+<% @approved_passages.each do |pass|  %>
+<p><%=  pass.content%></p>
+<% end %>
+<div class="new-passage-container" id="new-passage-container">
+  <form class="new-passage-form">
+    <textarea name="content" class="new-passage-content"></textarea><br>
+    <input type="hidden" name="storyid" value="<%= @story.id%>">
+    <input type="hidden" name="userid" value="<%= current_user.id%>">
+    <input type="submit" value="suggest this">
+  </form>
+</div>
+<div class="sent-banner" id="sent-banner">Paragraph sent!</div>
+<a href="#" class="add-passage-to-story">Add Passage</a>
+
+</div>

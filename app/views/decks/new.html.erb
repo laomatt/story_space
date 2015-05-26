@@ -1,0 +1,56 @@
+
+<div class="char-select-box-wrapper">
+  <a href="#" class="hide-char-select-box"><img class="closing-button char-closing" src="<%= asset_path( 'closing_button_up.png' ) %>"></a>
+  <div class="char-select-box" id="char-select-box">
+
+  </div>
+</div>
+
+
+<div class="whole-story-display">
+
+
+
+  <form id="create-new-deck" class="create-new-deck">
+<input type="hidden" value="<%= current_user.id %>">
+    Title: <input type="text" class="new-story-field" placeholder="Title of your new story" name="title"><br>
+    Setting: <input type="text" class="new-story-field" placeholder="when/where does your story take place?" name="setting"><br>
+    Genre: <input type="text" class="new-story-field" placeholder="what genres are associated with this story? (seperate with commas)" name="genre"><br>
+    Tag Line: <input type="text" class="new-story-field" placeholder="Sell this story to a potential reader in one line" name="tag_line">
+    <hr>
+    Cast:<br>
+    <div id="current-deck-cards">
+      <div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="cast-a-character">+</a></div>
+
+
+
+
+
+    </div>
+    <hr>
+    Opening paragraph:<br><br>
+
+    <textarea class="body-box" name="content"></textarea>
+
+
+    <input type="submit" class="submit-button" value="create!">
+
+  </form>
+</div>
+
+
+<script>
+
+$.ajax({
+  url: '/user_cards',
+})
+.done(function(data) {
+  var context = { cards: data};
+  var source = $("#cast-card-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#char-select-box').html('<div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="create-new-character">+</a></div>'+html)
+})
+
+
+</script>

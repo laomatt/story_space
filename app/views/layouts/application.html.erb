@@ -10,19 +10,25 @@
   <%if user_signed_in? %>
 
   <div class="profile-panel">
-    <h2>
-    <li><img class="small-avatar" src="<%= current_user.avatar %>"></li>
-    <li><a class="dash-link" href="/users/<%= current_user.id %>"><%=current_user.name%></a></li>
-    </h2>
+    <a class="dash-link" href="/users/<%= current_user.id %>">
+      <li><img class="small-avatar big-avatar" src="<%= current_user.avatar %>"></li>
+      <li><%=current_user.name%></li></a>
+
   </div>
 
 
   <div class="control-panel">
-    <li><a class="notifications" href="#">Notifications</a></li>
-    <li><a class="comm-link" href="/comm_page">Community Stories</a></li>
-    <li><a class="char-link" href="/char_page">Availiable Characters</a></li>
-    <li><a class="create-link" href="#">Create</a></li>
-    <li><a class="logout-link" href="/users/log_out">Logout</a></li>
+    <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"></a></li>
+
+    <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
+
+    <div class="comm-drop" id="comm-drop">
+      <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
+      <hr>
+      <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
+    </div>
+
+    <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
   </div>
 
   <%else%>
@@ -45,18 +51,87 @@
 
 <body>
 
+  <div class="form">
+
+    <form id="login-form" class="login-form" method="GET" action="<%=new_user_session_path%>">
+      username:<input type="text" name="email"><br>
+      password:<input type="password" name="password"><br>
+      <input type="submit" value="login">
+      <a href="#" class="cancel-login-link">cancel</a><br>
+    </form>
+
+
+
+    <form id="signup-form" action="<%=new_registration_path%>" method="POST" class="signup-form">
+      email:<input type="text" name="email"><br>
+      username:<input type="text" name="username"><br>
+      avatar url:<input type="text" name="avatar"><br>
+      password:<input type="password" name="password"><br>
+      Confirm password:<input type="password" name="confirm"><br>
+      <input type="submit" value="signup">
+      <a href="#" class="cancel-signup-link">cancel</a><br>
+    </form>
+
+
+  </div>
+
+  <!-- modal for character creation -->
+  <div class="create-a-card" id="create-a-card">
+    <form class="new-card-form" id="new-card-form">
+      What is this character called?<br>
+      <input type="text" class="new-character-field" name="name"><br>
+      In one line sell this character to a story teller...<br>
+      <input type="text" class="new-character-field" name="tag_line"><br>
+      What time for place does this character belong to?<br>
+      <input type="text" class="new-character-field" name="setting"><br><br>
+      <!-- <input type="text" class="new-character-field" name="archetype"><br> --><br>
+      What is the archetype your character would typically be used for?<br>
+      <select class="new-character-field"  name="archetype">
+        <option value="Leader">Leader</option>
+        <option value="Romantic interest">Romantic interest</option>
+        <option value="Damsel">Damsel</option>
+        <option value="Comedian">Comedian</option>
+        <option value="Villain">Villain</option>
+        <option value="Hero">Hero</option>
+        <option value="Crusader">Crusader</option>
+        <option value="Sage">Sage</option>
+        <option value="Weasel">Weasel</option>
+        <option value="Loner">Loner</option>
+        <option value="Geek">Geek</option>
+        <option value="Innocent">Innocent</option>
+        <option value="Wildcard">Wildcard</option>
+        <option value="Friend">Friend</option>
+        <option value="Other">Other</option>
+      </select><br>
+      <hr>
+      Write a short bio for this character<br>
+      <textarea class="new-character-field new-character-bio" name="bio"></textarea><br>
+
+      <input class="submit-button" type="submit" value="create">
+    </form>
+
+    <a href="#" class="hide-char-create-box">Cancel</a>
+
+  </div>
+
+
   <%= yield %>
 
 </body>
+
+
+
 </html>
 
-
+<!-- template for the user dashboard stories -->
 <script id="user-deck-template" type="text/x-handlebrs-template">
 {{#each decks}}
+
 
 <div class="deck-display user-deck-display">
 
 <br>
+<div id='deck_options{{card.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a>[x]</div>
 <h2>{{deck.name}}</h2>
 
 <i>by: {{user.name}}</i>
@@ -71,12 +146,24 @@
 </script>
 
 
+<!-- template for the users dash boards cards -->
 <script id="user-card-template" type="text/x-handlebrs-template">
 {{#each cards}}
+
+
+
+<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+<h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<p>{{card.bio}}</p>
+<a href="{{card.id}}" class="close-this-card">close</a>
+</div>
 
 <div class="card-display-template">
 
 <br>
+<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a>[x]</div>
 <h2>{{card.name}}</h2>
 
 <i>by: {{user.name}}</i>
@@ -90,14 +177,57 @@
 {{/each}}
 </script>
 
+<!-- template for the character select box modal -->
+<script id="cast-card-template" type="text/x-handlebrs-template">
+{{#each cards}}
+
+<div id="character-selection-box{{card.id}}" class="card-display-template create-new-story-cast-template">
+
+<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+<h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<p>{{card.bio}}</p>
+<a href="{{card.id}}" class="close-this-card">close</a>
+</div>
 
 
 
+<br>
+<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="select-this-card">[select]</a></div>
+<h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{card.tag_line}}</p>
+
+</div>
+
+
+{{/each}}
+</script>
+
+
+
+<!-- template for availiable community cards -->
 <script id="card-template" type="text/x-handlebrs-template">
 {{#each cards}}
 
 <div class="card-display">
 
+
+<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+<h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<p>{{card.bio}}</p>
+<a href="{{card.id}}" class="close-this-card">close</a>
+</div>
+
+
+
+<div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a>[claim]</div>
 <br>
 <h2>{{card.name}}</h2>
 
@@ -113,19 +243,20 @@
 </script>
 
 
+<!-- template for community stories -->
 <script id="deck-template" type="text/x-handlebrs-template">
 {{#each decks}}
-
 <div class="deck-display">
+
+<div class="options-box comm-deck"></div>
 <img class="template-avatar" src="{{user.avatar}}">
 <br><br>
-<h4>{{deck.name}}</h4>
-
+<h4><a href="/decks/{{deck.id}}">{{deck.name}}</a></h4>
+<h5>{{deck.setting}} | {{deck.category}}</h5>
 <i>by: {{user.name}}</i>
 <br>
 <hr>
 <p>{{deck.tag_line}}</p>
-
 
 </div>
 

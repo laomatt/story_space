@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   get '/comm_page' => 'decks#main_show'
   get '/char_page' => 'cards#main_show'
   get '/user_decks/:id' => 'decks#user_show'
-  get '/user_cards/:id' => 'cards#user_show'
-
+  get '/user_cards' => 'cards#user_show'
+  get '/edit_deck/:id' => 'decks#show_edit'
+  get '/user_cast_cards' => 'decks#user_cast_cards'
+  patch '/passage/approve_passage/:id' => 'passages#approve_passage'
+  patch '/passage/disapprove_passage/:id' => 'passages#disapprove_passage'
   devise_scope :user do
     post 'new_registration' => 'registrations#new'
     get 'new_user_session' => 'sessions#new'
@@ -15,6 +18,7 @@ Rails.application.routes.draw do
   resources :users
   resources :decks
   resources :cards
+  resources :passages
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   # get 'after_sign_in_path_for_users' => 'user#show'

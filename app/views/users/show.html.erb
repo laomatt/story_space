@@ -2,12 +2,24 @@
 <div id="user-info" player_id="<%=current_user.id%>">
   <div class="panel user-info">
 
-    <div class="users-stats" id="users-stats"></div>
-    <div class="users-cards" id="current-cards"></div>
+
+    <div class="users-stats" id="users-stats">
+<%= current_user.name %>
+
+    </div>
+    Your Characters:
+    <div class="users-cards" id="current-cards">
+
+
+    </div>
   </div>
 
 </div>
-<div class="panel current-decks" id="current-decks">
+
+<div class="panel current-decks">
+      <div class="users-decks" id="current-decks">
+
+    </div>
 
 </div>
 
@@ -21,20 +33,20 @@ $.ajax({
   var source = $("#user-deck-template").html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#current-decks').html(html)
+  $('#current-decks').html('<div class="deck-display user-deck-display new-link"><a href="/decks/new" class="create-new-story">+</a></div>'+html)
 
 })
 
 
 $.ajax({
-  url: '/user_cards/'+$("#user-info").attr("player_id"),
+  url: '/user_cards',
 })
 .done(function(data) {
-    var context = { cards: data};
+  var context = { cards: data};
   var source = $("#user-card-template").html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#current-cards').html(html)
+  $('#current-cards').html('<div class="card-display-template new-link"><a href="#" class="create-new-character">+</a></div>'+html)
 })
 
 

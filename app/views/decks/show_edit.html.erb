@@ -1,0 +1,38 @@
+<div class="whole-story-display">
+<% if @story.public == true %>
+This story has been published.<br>
+<a href="" class="">Unpublish this</a><br>
+<% else  %>
+<a href="" class="">Unpublish this</a>
+<% end  %>
+  <h2><%= @story.name %></h2>
+  By <%= @author.name %>
+
+  <p><%=  @story.story%></p>
+
+  <% @approved_passages.each do |pass|  %>
+  <div class="passage approved">
+    <p><%=  pass.content %></p>
+  </div>
+  <% end %>
+<div id="app_pass">
+
+</div>
+
+
+  <% @non_approved_passages.each do |pass|  %>
+  <p><div class="passage not_approved" id="nonapprovedpassage<%= pass.id %>">
+    <%=  pass.content%>
+    <hr>
+      <img class="template-avatar passage-avatar" src="<%=User.find(pass.user_id).avatar%>">
+    <div class="passage-author-box">
+      <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
+    </div>
+    <div class="options-box">
+      <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
+      <a href="<%= pass.id %>" class="dismiss-passage-link">[x]</a>
+    </div>
+  </div></p>
+  <% end %>
+  <br><br><br>
+</div>
