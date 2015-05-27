@@ -14,43 +14,43 @@
       <li><img class="small-avatar big-avatar" src="<%= current_user.avatar %>"></li>
       <li><%=current_user.name%></li></a>
 
-  </div>
-
-
-  <div class="control-panel">
-    <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"></a></li>
-
-    <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
-
-    <div class="comm-drop" id="comm-drop">
-      <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
-      <hr>
-      <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
     </div>
 
-    <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
-  </div>
 
-  <%else%>
+    <div class="control-panel">
+      <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"></a></li>
+
+      <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
+
+      <div class="comm-drop" id="comm-drop">
+        <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
+        <hr>
+        <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
+      </div>
+
+      <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
+    </div>
+
+    <%else%>
 
 
-  <div class="profile-panel">
-    <li> No User signed in </li>
+    <div class="profile-panel">
+      <li> No User signed in </li>
 
-  </div>
+    </div>
 
 
-  <div class="control-panel">
-   <li>  <a href="#" class="login-link">login</a></li>
-   <li> <a href="#" class="signup-link">sign-up</a></li>
- </div>
- <%end%>
+    <div class="control-panel">
+     <li>  <a href="#" class="login-link">login</a></li>
+     <li> <a href="#" class="signup-link">sign-up</a></li>
+   </div>
+   <%end%>
 
-</header>
-<br><br>
+ </header>
+ <br><br>
 
-<body>
-<!-- modal for login and sign up -->
+ <body>
+  <!-- modal for login and sign up -->
   <div class="form">
 
     <form id="login-form" class="login-form" method="GET" action="<%=new_user_session_path%>">
@@ -113,15 +113,8 @@
   </div>
 
 
-<!-- modal for deleting a story -->
 
-<div class="delete-deck-confirmation" id="delete-deck-confirmation">
-Are you sure you want to delete this entire story?<br>
-<br>
-<a href="" class="confirm-story-delete">Confirm</a>|
-<a href="" class="cancel-story-delete">Cancel</a>
 
-</div>
 
   <%= yield %>
 
@@ -135,11 +128,24 @@ Are you sure you want to delete this entire story?<br>
 <script id="user-deck-template" type="text/x-handlebrs-template">
 {{#each decks}}
 
+<div class="deck-display user-deck-display" id="deck-user-display{{deck.id}}">
 
-<div class="deck-display user-deck-display">
+<div class="delete-deck-confirmation" id="delete-deck-confirmation{{deck.id}}">
+Are you sure you want to delete this entire story?<br>
+<h2>{{deck.name}}</h2>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{deck.tag_line}}</p>
+<br>
+<a href="{{deck.id}}" class="confirm-story-delete">Confirm</a>|
+<a href="{{deck.id}}" class="cancel-story-delete">Cancel</a>
+</div>
+
 
 <br>
-<div id='deck_options{{card.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a>[x]</div>
+<div id='deck_options{{deck.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a><a href="{{deck.id}}" class="initiate-story-deletion">[x]</a></div>
 <h2>{{deck.name}}</h2>
 
 <i>by: {{user.name}}</i>
@@ -157,7 +163,16 @@ Are you sure you want to delete this entire story?<br>
 <!-- template for the users dash boards cards -->
 <script id="user-card-template" type="text/x-handlebrs-template">
 {{#each cards}}
+<div class="card-display-template" id="card-display-template{{card.id}}">
 
+<div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
+<h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+Are you sure you want to delete this Character?<br>
+<br>
+<a href="{{card.id}}" class="confirm-character-delete">Confirm</a>|
+<a href="{{card.id}}" class="cancel-character-delete">Cancel</a>
+</div>
 
 
 <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
@@ -168,10 +183,9 @@ Are you sure you want to delete this entire story?<br>
 <a href="{{card.id}}" class="close-this-card">close</a>
 </div>
 
-<div class="card-display-template">
 
 <br>
-<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a>[x]</div>
+<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[x]</a></div>
 <h2>{{card.name}}</h2>
 
 <i>by: {{user.name}}</i>

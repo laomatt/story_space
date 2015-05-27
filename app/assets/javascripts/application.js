@@ -131,18 +131,18 @@ $('body').on('submit', '.create-new-deck', function(event) {
     send_data+=current_cast[t]+","
   }
   // debugger
-$.ajax({
-  url: '/decks',
-  type: 'POST',
-  data: {current_chars:send_data, name:$(this).find('input[name="title"]').val(), story:$(this).find('textarea[name="content"]').val(), category:$(this).find('input[name="genre"]').val(), tag_line:$(this).find('input[name="tag_line"]').val(), setting:$(this).find('input[name="setting"]').val(), genre:$(this).find('input[name="genre"]').val()},
-})
-.done(function() {
-  that.trigger('reset')
-  $("#story-created-notification").fadeIn(700, function() {
-    $("#story-created-notification").fadeOut(700, function() {
+  $.ajax({
+    url: '/decks',
+    type: 'POST',
+    data: {current_chars:send_data, name:$(this).find('input[name="title"]').val(), story:$(this).find('textarea[name="content"]').val(), category:$(this).find('input[name="genre"]').val(), tag_line:$(this).find('input[name="tag_line"]').val(), setting:$(this).find('input[name="setting"]').val(), genre:$(this).find('input[name="genre"]').val()},
+  })
+  .done(function() {
+    that.trigger('reset')
+    $("#story-created-notification").fadeIn(700, function() {
+      $("#story-created-notification").fadeOut(700, function() {
 
+      });
     });
-  });
   // setTimeout(700,$("#story-created-notification").fa)
 })
 
@@ -163,31 +163,86 @@ $('body').on('click', '.publish-current-deck-link', function(event) {
     type: 'PATCH',
   })
   .done(function(data) {
-$('#story-status-notification').html('This story has been published. <a href="'+id+'" class="unpublish-current-deck-link">Click here to unpublish this</a><br>')
+    $('#story-status-notification').html('This story has been published. <a href="'+id+'" class="unpublish-current-deck-link">Click here to unpublish this</a><br>')
   })
 });
 
 //makes a deck private
 $('body').on('click', '.unpublish-current-deck-link', function(event) {
   event.preventDefault();
-    var id = $(this).attr('href');
+  var id = $(this).attr('href');
   $.ajax({
     url: '/deck_unpublish/'+id,
     type: 'PATCH',
   })
   .done(function(data) {
-$('#story-status-notification').html('This story has not been published to the comunity yet. <a href="'+id+'" class="publish-current-deck-link">Click here to publish this</a>')
+    $('#story-status-notification').html('This story has not been published to the comunity yet. <a href="'+id+'" class="publish-current-deck-link">Click here to publish this</a>')
   })
 });
 
 //makes a card availiable to others
 
 //destroys a card
+  //confirm with the user first
+  $('body').on('click', '.initiate-character-deletion', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href');
+    $("#delete-character-confirmation"+id).fadeIn(1000, function() {});
+  });
+
+  $('body').on('click', '.cancel-character-delete', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href')
+    $("#delete-character-confirmation"+id).fadeOut(1000, function() {});
+  });
+
+
+  //deletes character upon confirmation
+  $('body').on('click', '.confirm-character-delete', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href')
+    $.ajax({
+      url: '/cards/'+id,
+      type: 'DELETE',
+    })
+    .done(function(data) {
+      $('#card-display-template'+id).fadeOut(1000, function() {});
+    })
+    .always(function() {
+      $("#delete-character-confirmation"+id).fadeOut(600, function() {});
+    });
+  });
+
 
 //destroys a deck
   //confirms with the user first
+  $('body').on('click', '.initiate-story-deletion', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href')
+    $("#delete-deck-confirmation"+id).fadeIn(1000, function() {});
+  });
 
-  //deletes upon confirmation
+  $('body').on('click', '.cancel-story-delete', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href')
+    $("#delete-deck-confirmation"+id).fadeOut(1000, function() {});
+  });
+
+  //deletes story upon confirmation
+  $('body').on('click', '.confirm-story-delete', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href')
+    $.ajax({
+      url: '/decks/'+id,
+      type: 'DELETE',
+    })
+    .done(function(data) {
+      $('#deck-user-display'+id).fadeOut(1000, function() {});
+    })
+    .always(function() {
+      $("#delete-deck-confirmation"+id).fadeOut(600, function() {});
+    });
+  });
 
 //destroys a passage
 })

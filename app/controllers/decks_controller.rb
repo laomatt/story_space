@@ -61,6 +61,12 @@ class DecksController < ApplicationController
     render :json => deck
   end
 
+  def destroy
+    deck=Deck.find(params[:id])
+    deck.destroy
+    render :json => {}
+  end
+
   def user_cast_cards
 
 
