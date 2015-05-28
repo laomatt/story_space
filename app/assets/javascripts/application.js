@@ -226,6 +226,23 @@ $('body').on('click', '.close-char-select-modal', function(event) {
   $("#char-select-modal").slideUp(500)
 });
 
+//inspects card in edit page
+$('body').on('click', '.inspect-card-in-edit-page', function(event) {
+  event.preventDefault();
+  var id=$(this).attr('href');
+  $("#inspect-edit-card-box"+id).slideDown('700', function() {});
+
+});
+
+$('body').on('click', '.hide-inspect-card-in-edit-page', function(event) {
+  event.preventDefault();
+  var id=$(this).attr('href');
+  $("#inspect-edit-card-box"+id).slideUp('700')
+
+});
+
+
+
 //inspects card in char select modal
 $('body').on('click', '.inspect-card-in-char-select-modal', function(event) {
   event.preventDefault();

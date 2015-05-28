@@ -21,6 +21,22 @@
         <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
         {{#each cards}}
               <div class="story-cast-list" id="story-cast-list{{id}}">
+
+
+                    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
+                      <h4>  {{name}}</h4>
+                      <i>  {{archetype}}</i>
+                      <hr>
+                      <i>  {{deck_id}}</i>
+                      <hr>
+                      <p> {{bio}} </p>
+                        <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
+                      <div class="options-box">
+                        </div>
+                    </div>
+
+
+
                 <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
                 <i>{{archetype}}</i>
                 <br>
@@ -34,8 +50,23 @@
       </div>
         <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
         {{#each cards}}
+
+                    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
+                      <h4>  {{name}}</h4>
+                      <i>  {{archetype}}</i>
+                      <hr>
+                      <i>  {{deck_id}}</i>
+                      <hr>
+                      <p> {{bio}} </p>
+                        <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
+                      <div class="options-box">
+                        <a href="{{id}}" class="remove-inspect-card-in-edit-page">[remove character from story]</a>
+                        </div>
+                    </div>
+
+
               <div class="story-cast-list" id="story-cast-list{{id}}">
-                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+                <h4><a href="{{id}}" class="inspect-card-in-char-select-modal">{{name}}</a></h4>
                 <i>{{archetype}}</i>
                 <br>
                 <div class="options-box"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
