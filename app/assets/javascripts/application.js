@@ -233,14 +233,23 @@ $('body').on('click', '.inspect-card-in-edit-page', function(event) {
   $("#inspect-edit-card-box"+id).slideDown('700', function() {});
 
 });
-
 $('body').on('click', '.hide-inspect-card-in-edit-page', function(event) {
   event.preventDefault();
   var id=$(this).attr('href');
   $("#inspect-edit-card-box"+id).slideUp('700')
-
 });
-
+$('body').on('click', '.remove-inspect-card-in-edit-page', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href');
+  $.ajax({
+    url: '/card_remove_from_story/'+id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+    $("#inspect-edit-card-box"+id).slideUp('700')
+    $("#story-cast-list"+id).fadeOut('600', function() {});
+  })
+});
 
 
 //inspects card in char select modal
