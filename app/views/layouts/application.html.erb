@@ -18,6 +18,8 @@
 
 
     <div class="control-panel">
+      <li><a class="informaion" href="#"><img class="small-avatar" title="Information" src="<%= asset_path( 'info.png' ) %>"></a></li>
+      <li><a class="messages" href="#"><img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>"></a></li>
       <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"></a></li>
 
       <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
@@ -27,6 +29,13 @@
         <hr>
         <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
       </div>
+
+      <div class="info-drop" id="info-drop">
+        <li><a class="faq-link" href="/comm_page">FAQ</a></li><br>
+        <hr>
+        <li><a class="howitworks-link" href="/char_page">How this all works</a></li>
+      </div>
+
 
       <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
     </div>
@@ -273,18 +282,18 @@ Associated stories:<br>
 <p>{{card.bio}}</p>
 <hr>
 
-  <form class="claim-this-card-from-community" action="{{card.id}}">
-  Which story do you want to claim this character for?<br>
-  <select class="list-of-users-stories" name="deck_id">
-  {{#each user_stories}}
-  <option value="{{id}}">{{name}}</option>
-  {{/each}}
-  </select>
-  <input type="hidden" name="card_id" value="{{card.id}}">
-  <input type="submit" value="claim">
-  </form>
+<form class="claim-this-card-from-community" action="{{card.id}}">
+Which story do you want to claim this character for?<br>
+<select class="list-of-users-stories" name="deck_id">
+{{#each user_stories}}
+<option value="{{id}}">{{name}}</option>
+{{/each}}
+</select>
+<input type="hidden" name="card_id" value="{{card.id}}">
+<input type="submit" value="claim">
+</form>
 <hr>
-  <a href="{{card.id}}" class="hide-claim-modal">[cancel]</a>
+<a href="{{card.id}}" class="hide-claim-modal">[cancel]</a>
 </div>
 
 

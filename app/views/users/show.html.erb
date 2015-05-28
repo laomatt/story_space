@@ -33,7 +33,7 @@ $.ajax({
   var source = $("#user-deck-template").html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#current-decks').html('<div class="deck-display user-deck-display new-link"><a href="/decks/new" class="create-new-story">+</a></div>'+html)
+  $('#current-decks').html('<div class="deck-display user-deck-display new-link"><a href="/decks/new" class="create-new-story">Create new story</a></div>'+html)
 
 })
 
@@ -46,7 +46,7 @@ $.ajax({
   var source = $("#user-card-template").html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#current-cards').html('<div class="card-display-template new-link"><a href="#" class="create-new-character">+</a></div>'+html)
+  $('#current-cards').html('<div class="card-display-template new-link"><a href="#" class="create-new-character">Create new character</a></div>'+html)
 })
 
 

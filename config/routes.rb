@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/error' => 'decks#error'
   get '/edit_deck/:id' => 'decks#show_edit'
   get '/user_cast_cards' => 'decks#user_cast_cards'
-
+  get '/story_cards/:id' => 'cards#story_cards'
 # this claims a card
   patch 'card_claim/:id' => 'cards#claim'
 #dismiss a passage

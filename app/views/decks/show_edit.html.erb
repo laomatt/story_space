@@ -16,32 +16,35 @@
     Current cast list: <br>
     <% if @story.public == true %>
       <div class="story-cast-list new-link new-link-char" style="display:none">
-        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">+</a>
+        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
       </div>
-
-      <% @story.cards.each do |char| %>
-      <div class="story-cast-list" id="story-cast-list<%= char.id %>">
-        <h4><a href="<%= char.id %>" class="inspect-card-in-edit-page"><%=  char.name%></a></h4>
-        <i><%= char.archetype %></i>
-        <br>
-        <div class="options-box" style="display:none"><a href="<%= char.id %>" class="remove-character-from-story">[Remove this character]</a></div>
-      </div>
-      <% end %>
-
+        <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
+        {{#each cards}}
+              <div class="story-cast-list" id="story-cast-list{{id}}">
+                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+                <i>{{archetype}}</i>
+                <br>
+                <div class="options-box" style="display:none"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
+              </div>
+        {{/each}}
+        </script>
     <% else %>
       <div class="story-cast-list new-link new-link-char">
-        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">+</a>
+        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
       </div>
-      <% @story.cards.each do |char| %>
+        <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
+        {{#each cards}}
+              <div class="story-cast-list" id="story-cast-list{{id}}">
+                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+                <i>{{archetype}}</i>
+                <br>
+                <div class="options-box"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
+              </div>
+        {{/each}}
+        </script>
+    <% end %>
 
-      <div class="story-cast-list" id="story-cast-list<%= char.id %>">
-        <h4><a href="<%= char.id %>" class="inspect-card-in-edit-page"><%=  char.name%></a></h4>
-        <i><%= char.archetype %></i>
-        <br>
-        <div class="options-box"><a href="<%= char.id %>" class="remove-character-from-story">[Remove this character]</a></div>
-      </div>
-    <% end %>
-    <% end %>
+
   </div>
 
   <!-- refact -->
@@ -123,3 +126,18 @@
   </div>
 
 
+<script type="text/javascript">
+
+$.ajax({
+  url: '/story_cards/'+$("#story_id_info").attr('id2'),
+})
+.done(function(data) {
+  var context = { cards: data};
+  var source = $("#edit-page-character-list-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-cast-of-characters').append(html)
+})
+
+
+</script>

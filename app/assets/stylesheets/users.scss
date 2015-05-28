@@ -50,7 +50,7 @@ body{
   width: 50px;
   border-radius: 100px;
   border-style: solid;
-  border-color: red;
+  border-color: white;
 }
 
 .big-avatar{
@@ -73,6 +73,18 @@ body{
   position: absolute;
   width: 25%;
   right: 5%;
+  display: none;
+  border-color: white;
+  border-style: solid;
+  padding: 2px;
+  border-radius: 5px;
+  background-color: #0B3861;
+}
+
+.info-drop{
+    position: absolute;
+  width: 25%;
+  right: 25%;
   display: none;
   border-color: white;
   border-style: solid;
@@ -232,9 +244,9 @@ display: none;
 
 .card-display-template{
   position: relative;
-  width: 30%;
+  width: 90%;
   height: 200px;
-  background-color: white;
+  background-color: #F2F5A9;
   /*text-align: left;*/
   display: inline-block;
   direction: horizontal;
@@ -297,14 +309,14 @@ display: none;
   position: absolute;
   top: 40%;
   /*bottom: 10%;*/
-  right: 5%;
-  background-color: yellow;
+  /*right: 5%;*/
+  background-color: #0489B1;
   margin: 0 auto;
   text-align: center;
   padding: 4%;
   font-size: 20pt;
   display: inline;
-  width: 80%;
+  width: 90%;
   height:40%;
   z-index: 3;
   overflow: scroll;
@@ -329,12 +341,14 @@ display: none;
   position: relative;
   width: 20%;
   height: 300px;
-  background-color: white;
+  background-color: #F2F5A9;
   font-size: 12pt;
   /*text-align: left;*/
   display: inline-block;
   direction: horizontal;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #0B3861;
   margin: 1%;
   overflow: scroll;
   padding: 1%;
@@ -356,7 +370,7 @@ display: none;
 
 .user-deck-display{
   height: 160px;
-  width: 45%;
+  width: 95%;
 }
 
 .deck-display#h4{
@@ -381,14 +395,13 @@ display: none;
   right: 0%;
 }
 
-.new-link{
-  text-align: center;
-  font-size: 100px;
-  line-height: 150px;
-}
+
 
 .new-link-char{
-  line-height: 100px;
+  line-height: 20px;
+  height: 50px;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .options-box{
@@ -629,4 +642,12 @@ display: none;
 
 .hidden{
   display: none;
+}
+
+.new-link{
+  text-align: center;
+  font-size: 15px;
+  height: 20px;
+  line-height: 10px;
+
 }

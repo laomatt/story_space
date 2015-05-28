@@ -64,13 +64,18 @@ class CardsController < ApplicationController
     deck=Deck.find(params[:deck_id])
     card=Card.find(params[:id])
     deck.cards << card
-    render :json => card
+    render :json => [card]
   end
 
   def card_remove_from_story
     card=Card.find(params[:id])
     card.update_attributes(deck_id:nil)
     render :json => card
+  end
+
+  def story_cards
+    cards = Card.where(deck_id:params[:id])
+    render :json => cards
   end
 
   def main_show

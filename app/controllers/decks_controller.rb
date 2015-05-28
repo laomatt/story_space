@@ -57,6 +57,16 @@ class DecksController < ApplicationController
   def publish
     deck = Deck.find(params[:id])
     deck.update_attributes(public:true)
+
+    deck.cards.each do |card|
+      if card.stories != nil
+        tem_array = card.stories.split(',') << deck.id.to_s
+        card.update_attributes(stories:tem_array.uniq.join(','))
+      else
+        card.update_attributes(stories:deck.id.to_s)
+      end
+    end
+
     render :json => deck
   end
 

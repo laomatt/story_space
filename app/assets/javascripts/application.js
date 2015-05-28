@@ -158,6 +158,7 @@ $('body').on('submit', '.create-new-deck', function(event) {
 
 $('body').on('click', '.publish-current-deck-link', function(event) {
   event.preventDefault();
+
   var id = $(this).attr('href');
   $.ajax({
     url: '/deck_publish/'+id,
@@ -249,7 +250,11 @@ $('body').on('click', '.add-inspect-card-in-char-select-modal', function(event) 
   })
   .done(function(data) {
     console.log(data);
-    $("#current-cast-of-characters").append('')
+    var context = { cards: data};
+    var source = $("#edit-page-character-list-template").html();
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    $("#current-cast-of-characters").append(html)
     // $("#aloted-card-display-template"+card_id).fadeOut('500', function() {});
     $("#aloted-card-display-template"+card_id).css('display','none');
     $("#char-select-modal").slideUp(500)
@@ -302,13 +307,13 @@ $('body').on('submit', '.claim-this-card-from-community', function(event) {
 $('body').on('click', '.remove-character-from-story', function(event) {
   event.preventDefault();
   var id = $(this).attr('href');
-$.ajax({
-  url: '/card_remove_from_story/'+id,
-  type: 'PATCH',
-})
-.done(function(data) {
-$("#story-cast-list"+id).fadeOut('600', function() {});
-})
+  $.ajax({
+    url: '/card_remove_from_story/'+id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+    $("#story-cast-list"+id).fadeOut('600', function() {});
+  })
 });
 
 //makes a card availiable to others

@@ -48,7 +48,7 @@ $('body').on('click', '.approve-passage-link', function(event) {
   })
   .done(function(data) {
     $("#nonapprovedpassage"+data.id).css('display','none');
-    $("#app_pass").append('<div id="approved_pass'+data.id+'" class="passage approved">'+data.content+'<a href="'+data.id+'" class="cancel-approval-link">[Cancel]</a></div>')
+    $("#app_pass").append('<div id="approved_pass'+data.id+'" class="passage approved">'+data.content+'<div class="options-box"><a href="'+data.id+'" class="cancel-approval-link">[Cancel]</a></div></div>')
   })
 });
 
