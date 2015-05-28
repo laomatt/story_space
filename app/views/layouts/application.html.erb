@@ -73,6 +73,7 @@
 
   </div>
 
+  <% if user_signed_in? %>
   <!-- modal for character creation -->
   <div class="create-a-card" id="create-a-card">
     <form class="new-card-form" id="new-card-form">
@@ -102,6 +103,14 @@
         <option value="Other">Other</option>
       </select><br>
       <hr>
+      Which one of your stories (if any) would you like this character for?
+      <select class="which-story-initiate" name="deck_id">
+        <% Deck.where(user_id: current_user.id).each do |story| %>
+        <option value="<%= story.id %>"><%= story.name %></option>
+        <% end  %>
+        <option value="<%= nil %>">None (auto make card public)</option>
+      </select>
+      <hr>
       Write a short bio for this character<br>
       <textarea class="new-character-field new-character-bio" name="bio"></textarea><br>
 
@@ -111,7 +120,7 @@
     <a href="#" class="hide-char-create-box">Cancel</a>
 
   </div>
-
+  <% end  %>
 
 
 
@@ -133,12 +142,8 @@
 <div class="delete-deck-confirmation" id="delete-deck-confirmation{{deck.id}}">
 Are you sure you want to delete this entire story?<br>
 <h2>{{deck.name}}</h2>
-
 <i>by: {{user.name}}</i>
-<br>
-<hr>
 <p>{{deck.tag_line}}</p>
-<br>
 <a href="{{deck.id}}" class="confirm-story-delete">Confirm</a>|
 <a href="{{deck.id}}" class="cancel-story-delete">Cancel</a>
 </div>
@@ -146,7 +151,7 @@ Are you sure you want to delete this entire story?<br>
 
 <br>
 <div id='deck_options{{deck.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a><a href="{{deck.id}}" class="initiate-story-deletion">[x]</a></div>
-<h2>{{deck.name}}</h2>
+<h2><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></h2>
 
 <i>by: {{user.name}}</i>
 <br>
@@ -168,10 +173,10 @@ Are you sure you want to delete this entire story?<br>
 <div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
 <h2>{{card.name}}</h2>
 <h4>{{card.archetype}}</h4>
-Are you sure you want to delete this Character?<br>
-<br>
-<a href="{{card.id}}" class="confirm-character-delete">Confirm</a>|
-<a href="{{card.id}}" class="cancel-character-delete">Cancel</a>
+<p>Are you sure you want to dismiss this character to the community?</p><br>
+
+<a href="{{card.id}}" class="confirm-character-delete">[Dismiss to community]</a>|
+<a href="{{card.id}}" class="cancel-character-delete">[Cancel]</a>
 </div>
 
 
@@ -185,11 +190,12 @@ Are you sure you want to delete this Character?<br>
 
 
 <br>
-<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[x]</a></div>
+<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[dismiss]</a></div>
 <h2>{{card.name}}</h2>
 
 <i>by: {{user.name}}</i>
 <br>
+Current story: <b>{{deck.name}}</b>
 <hr>
 <p>{{card.tag_line}}</p>
 
@@ -236,22 +242,55 @@ Are you sure you want to delete this Character?<br>
 <script id="card-template" type="text/x-handlebrs-template">
 {{#each cards}}
 
-<div class="card-display">
-
+<div class="card-display" id="community-card-display{{card.id}}">
 
 <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+<div id='card_options{{card.id}}' class="options-box">
+<a href="{{card.id}}" class="close-this-card">[close]</a>
+<a href="{{card.id}}" class="claim-this-card-from-community">[claim]</a>
+</div>
 <h2>{{card.name}}</h2>
 <h4>{{card.archetype}}</h4>
 <i>by: {{user.name}}</i>
 <p>{{card.bio}}</p>
-<a href="{{card.id}}" class="close-this-card">close</a>
+<hr>
+
+Associated stories:<br>
+{{#each stories}}
+{{name}}<br>
+
+{{/each}}
+
+
 </div>
 
 
 
-<div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a>[claim]</div>
-<br>
+<div class="claim-card-modal" id="claim-card-modal{{card.id}}">
 <h2>{{card.name}}</h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<p>{{card.bio}}</p>
+<hr>
+
+  <form class="claim-this-card-from-community" action="{{card.id}}">
+  Which story do you want to claim this character for?<br>
+  <select class="list-of-users-stories" name="deck_id">
+  {{#each user_stories}}
+  <option value="{{id}}">{{name}}</option>
+  {{/each}}
+  </select>
+  <input type="hidden" name="card_id" value="{{card.id}}">
+  <input type="submit" value="claim">
+  </form>
+<hr>
+  <a href="{{card.id}}" class="hide-claim-modal">[cancel]</a>
+</div>
+
+
+<div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="pop-up-claim-card-modal">[claim]</a></div>
+<br>
+<h2><a href="{{card.id}}" class="inspect-this-card">{{card.name}}</a></h2>
 
 <i>by: {{user.name}}</i>
 <br>

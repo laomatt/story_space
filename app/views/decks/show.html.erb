@@ -5,10 +5,13 @@
 
 <h2><%= @story.name %></h2>
 By <%= @author.name %>
-
+<div class="passage approved">
 <p><%=  @story.story%></p>
+</div>
 <% @approved_passages.each do |pass|  %>
+<div class="passage approved">
 <p><%=  pass.content%></p>
+</div>
 <% end %>
 <div class="new-passage-container" id="new-passage-container">
   <form class="new-passage-form">

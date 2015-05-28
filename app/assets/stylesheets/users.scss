@@ -18,6 +18,19 @@ header a{
   color: white;
 }
 
+.error-message{
+  position: fixed;
+  top: 40%;
+  width: 50%;
+  left: 20%;
+  height: 20%;
+  padding: 5%;
+  margin: 0 auto;
+  color: white;
+  background-color: red;
+
+}
+
 li{
   padding: 2px;
 }
@@ -170,6 +183,26 @@ li{
   display: block;
 }
 
+.current-cast-of-characters{
+  position: relative;
+  height: 10%;
+  overflow: scroll;
+}
+
+.char-select-modal{
+position: fixed;
+height: 40%;
+width: 50%;
+top: 10%;
+left: 20%;
+background-color: white;
+overflow: scroll;
+z-index: 30;
+padding: 3%;
+display: none;
+}
+
+
 .card-display-area{
   position: absolute;
   width: 80%;
@@ -182,9 +215,24 @@ li{
   overflow: scroll;
 }
 
+.story-cast-list{
+  position: relative;
+  width: 20%;
+  height: 100px;
+  background-color: white;
+  /*text-align: left;*/
+  font-size: 14px;
+  display: inline-block;
+  direction: horizontal;
+  margin: 2px;
+  overflow: scroll;
+  padding: 2%;
+  border-radius: 12px;
+}
+
 .card-display-template{
   position: relative;
-  width: 80%;
+  width: 30%;
   height: 200px;
   background-color: white;
   /*text-align: left;*/
@@ -198,6 +246,12 @@ li{
 .create-new-story-cast-template{
   width: 20%;
 }
+
+.modal-mode{
+  width: 20%;
+  background-color:#D8F6CE;
+}
+
 
 
 
@@ -289,6 +343,7 @@ li{
 .card-display{
   position: relative;
   width: 20%;
+  font-size: 12pt;
   height: 400px;
   background-color: white;
   /*text-align: left;*/
@@ -332,6 +387,10 @@ li{
   line-height: 150px;
 }
 
+.new-link-char{
+  line-height: 100px;
+}
+
 .options-box{
   position: relative;
   float: right;
@@ -347,6 +406,10 @@ li{
   float: left;
 }
 
+.add-passage-to-story{
+  float: right;
+}
+
 .delete-deck-confirmation{
   position: fixed;
   left: 30%;
@@ -357,10 +420,11 @@ li{
   z-index: 60;
   border-radius: 10px;
   text-align: center;
-  padding: 5%;
+  padding: 2%;
   /*line-height: 100px;*/
-  font-size: 16pt;
+  font-size: 12pt;
   display: none;
+  overflow: scroll;
 }
 
 .whole-story-display{
@@ -389,15 +453,33 @@ li{
 .passage{
   padding: 4%;
   border-radius: 10px;
+  position: relative;
+  left: 10%;
+  text-align: justify;
+  width: 60%;
 
 }
 
 .approved{
   background-color: transparent;
+  padding: 1%;
 }
 
 .not_approved{
   background-color: #F5A9A9;
+  width: 80%;
+  left: 2%;
+}
+
+.not-app-box{
+  position: relative;
+  height: 400px;
+  width: 70%;
+  overflow: scroll;
+  background-color: white;
+  /*padding: 4%;*/
+  left: 10%;
+  border-radius: 10px;
 }
 
 .body-box{
@@ -462,19 +544,34 @@ li{
 .create-a-card{
   position: fixed;
   background-color: white;
-  padding: 2%;
+  padding: 5%;
   left: 30%;
-  top: 10%;
+  top: 0%;
   height: 80%;
   width: 30%;
   z-index: 32;
   border-color: blue;
   border-style: solid;
-  font-size: 20pt;
+  font-size: 14pt;
   display: none;
+  border-radius: 10px;
   overflow: scroll;
 }
-
+.claim-card-modal{
+  position: fixed;
+  top: 20%;
+  right: 30%;
+  background-color: #D8F6CE;
+  width: 30%;
+  height: 50%;
+  overflow: scroll;
+  padding: 4%;
+  display: none;
+  z-index: 60;
+  border-color: red;
+  border-radius: 15px;
+  border-style: solid;
+}
 
 .new-character-field{
   width: 70%;
@@ -493,9 +590,9 @@ li{
 .inspect-card-box{
   position: fixed;
   right: 20%;
-  top: 40%;
+  top: 20%;
   background-color: white;
-  padding: 5%;
+  padding: 2%;
   width: 30%;
   height: 30%;
   display: none;
@@ -526,5 +623,10 @@ li{
   text-align: center;
   color: white;
   width: 100%;
+  display: none;
+}
+
+
+.hidden{
   display: none;
 }

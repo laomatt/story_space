@@ -10,5 +10,10 @@ before_action :authenticate_user!
   end
 
 
+  def error
+
+  end
+
+
 
 end

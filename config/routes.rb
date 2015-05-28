@@ -1,14 +1,24 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations'}
-
   get '/comm_page' => 'decks#main_show'
   get '/char_page' => 'cards#main_show'
+
+  patch '/claim_card_for_deck' => 'cards#claim_for_deck'
+  patch '/card_remove_from_story/:id' => 'cards#card_remove_from_story'
   get '/user_decks/:id' => 'decks#user_show'
   get '/user_cards' => 'cards#user_show'
+  get '/error' => 'decks#error'
   get '/edit_deck/:id' => 'decks#show_edit'
   get '/user_cast_cards' => 'decks#user_cast_cards'
+
+# this claims a card
+  patch 'card_claim/:id' => 'cards#claim'
+#dismiss a passage
+
+  patch '/decks/:deck_id/cards/:id' => 'cards#assign_to_deck'
   patch '/deck_publish/:id' => 'decks#publish'
   patch '/deck_unpublish/:id' => 'decks#unpublish'
+  patch '/dissmiss_cards/:id' => 'cards#dismiss'
   patch '/passage/approve_passage/:id' => 'passages#approve_passage'
   patch '/passage/disapprove_passage/:id' => 'passages#disapprove_passage'
   devise_scope :user do

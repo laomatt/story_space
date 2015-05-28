@@ -72,12 +72,14 @@ $(document).on("page:change", function(){
 
   $('body').on('click', '.create-new-character', function(event) {
     event.preventDefault();
-    $("#create-a-card").css("display","block");
+    // $("#create-a-card").css("display","block");
+    $("#create-a-card").slideDown('700', function() {});
   });
 
   $('body').on('click', '.hide-char-create-box', function(event) {
     event.preventDefault();
-    $("#create-a-card").css("display","none");
+    // $("#create-a-card").css("display","none");
+    $("#create-a-card").slideUp(700)
   });
 
 //actions for create-story card select
@@ -149,7 +151,6 @@ $('body').on('submit', '.create-new-deck', function(event) {
 
 });
 
-//send a new character to the DB
 
 
 
@@ -164,6 +165,8 @@ $('body').on('click', '.publish-current-deck-link', function(event) {
   })
   .done(function(data) {
     $('#story-status-notification').html('This story has been published. <a href="'+id+'" class="unpublish-current-deck-link">Click here to unpublish this</a><br>')
+    $(".new-link-char").css('display','none')
+    $(".options-box").css('display','none')
   })
 });
 
@@ -177,7 +180,135 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
   })
   .done(function(data) {
     $('#story-status-notification').html('This story has not been published to the comunity yet. <a href="'+id+'" class="publish-current-deck-link">Click here to publish this</a>')
+    $(".new-link-char").css('display','block')
+    $(".options-box").css('display','block')
+
   })
+});
+//send a new character to the DB (create new card)
+
+$('body').on('submit', '.new-card-form', function(event) {
+  event.preventDefault();
+  var that = $(this)
+  $.ajax({
+    url: '/cards',
+    type: 'POST',
+    data: that.serialize(),
+  })
+  .done(function(data) {
+    $('#create-a-card').slideUp(700)
+    var context = { cards: data};
+    var source = $("#user-card-template").html();
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    $('#current-cards').append(html)
+    $("#card-display-template"+data[0].card.id).css('display','none')
+    $("#card-display-template"+data[0].card.id).fadeIn(700, function() {});
+    that.trigger('reset')
+    // debugger
+  })
+
+
+});
+
+
+//pops up char select modal
+$('body').on('click', '.pop-up-char-select-modal', function(event) {
+  event.preventDefault();
+  $("#char-select-modal").slideDown(500, function() {});
+
+});
+
+//close char select modal
+$('body').on('click', '.close-char-select-modal', function(event) {
+  event.preventDefault();
+  $("#char-select-modal").slideUp(500)
+});
+
+//inspects card in char select modal
+$('body').on('click', '.inspect-card-in-char-select-modal', function(event) {
+  event.preventDefault();
+  var id=$(this).attr('href');
+  $("#inspect-card-box"+id).slideDown('700', function() {});
+});
+
+$('body').on('click', '.hide-inspect-card-in-char-select-modal', function(event) {
+  event.preventDefault();
+  var id=$(this).attr('href');
+  $("#inspect-card-box"+id).slideUp('700')
+});
+
+$('body').on('click', '.add-inspect-card-in-char-select-modal', function(event) {
+  event.preventDefault();
+  var card_id = $(this).attr('href')
+  var deck_id = $("#story_id_info").attr('id2')
+  // var deck_id = $(this).attr('deck_id')
+  $.ajax({
+    url: '/decks/'+deck_id+'/cards/'+card_id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+    console.log(data);
+    $("#current-cast-of-characters").append('')
+    // $("#aloted-card-display-template"+card_id).fadeOut('500', function() {});
+    $("#aloted-card-display-template"+card_id).css('display','none');
+    $("#char-select-modal").slideUp(500)
+  })
+
+});
+
+//pops up modal to inspects card in the edit page
+$('body').on('click', '.inspect-card-in-edit-page', function(event) {
+  event.preventDefault();
+  $("#inspect-card-box-edit")
+  /* Act on the event */
+});
+
+//selects a char for a story from the char select modal
+
+
+//pops up claim card modal
+
+$('body').on('click', '.pop-up-claim-card-modal', function(event) {
+  event.preventDefault();
+
+  var id = $(this).attr('href');
+  // $("#claim-card-modal"+id).css('display','block')
+  $("#claim-card-modal"+id).slideDown('500', function() {});
+});
+
+$('body').on('click', '.hide-claim-modal', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href');
+  $("#claim-card-modal"+id).slideUp('500')
+});
+
+//claims a card from the community selection
+$('body').on('submit', '.claim-this-card-from-community', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('action');
+  $.ajax({
+    url: '/claim_card_for_deck',
+    type: 'PATCH',
+    data: $(this).serialize(),
+  })
+  .done(function(data) {
+    $("#claim-card-modal"+id).slideUp('500')
+    $('#community-card-display'+id).fadeOut('500', function() {});
+  })
+});
+
+//remove char from a story
+$('body').on('click', '.remove-character-from-story', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href');
+$.ajax({
+  url: '/card_remove_from_story/'+id,
+  type: 'PATCH',
+})
+.done(function(data) {
+$("#story-cast-list"+id).fadeOut('600', function() {});
+})
 });
 
 //makes a card availiable to others
@@ -202,8 +333,8 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
     event.preventDefault();
     var id = $(this).attr('href')
     $.ajax({
-      url: '/cards/'+id,
-      type: 'DELETE',
+      url: '/dissmiss_cards/'+id,
+      type: 'patch',
     })
     .done(function(data) {
       $('#card-display-template'+id).fadeOut(1000, function() {});
@@ -245,5 +376,19 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
   });
 
 //destroys a passage
+$('body').on('click', '.dismiss-passage-link', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('href')
+
+  $.ajax({
+    url: '/passages/'+id,
+    type: 'DELETE',
+  })
+  .done(function(data) {
+    console.log("success");
+    $('#nonapprovedpassage'+id).fadeOut('600', function() {});
+  })
+
+});
 })
 

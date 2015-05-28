@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
 
 
   def authenticate_user!
-    redirect_to('/') if current_user.id != params[:id].to_i
+    redirect_to '/error' if current_user.id != params[:id].to_i
   end
 end

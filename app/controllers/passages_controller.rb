@@ -15,4 +15,12 @@ class PassagesController < ApplicationController
     passage.update_attributes(approved:false)
     render :json => passage
   end
+
+  def destroy
+    passage = Passage.find(params[:id])
+    id=passage.id
+    passage.destroy
+    render :json => {id: id}
+
+  end
 end

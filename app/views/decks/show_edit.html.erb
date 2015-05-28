@@ -1,5 +1,5 @@
 <div class="story-created-notification" id="story-created-notification"></div>
-
+<div class="hidden" id="story_id_info" id2="<%= params[:id] %>"></div>
 <div class="whole-story-display">
   <hr>
   <div class="story-status-notification" id="story-status-notification">
@@ -10,34 +10,116 @@
     <% end  %>
   </div>
   <hr>
+
+  <!-- refactor into handle bars -->
+  <div class="current-cast-of-characters" id="current-cast-of-characters">
+    Current cast list: <br>
+    <% if @story.public == true %>
+      <div class="story-cast-list new-link new-link-char" style="display:none">
+        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">+</a>
+      </div>
+
+      <% @story.cards.each do |char| %>
+      <div class="story-cast-list" id="story-cast-list<%= char.id %>">
+        <h4><a href="<%= char.id %>" class="inspect-card-in-edit-page"><%=  char.name%></a></h4>
+        <i><%= char.archetype %></i>
+        <br>
+        <div class="options-box" style="display:none"><a href="<%= char.id %>" class="remove-character-from-story">[Remove this character]</a></div>
+      </div>
+      <% end %>
+
+    <% else %>
+      <div class="story-cast-list new-link new-link-char">
+        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">+</a>
+      </div>
+      <% @story.cards.each do |char| %>
+
+      <div class="story-cast-list" id="story-cast-list<%= char.id %>">
+        <h4><a href="<%= char.id %>" class="inspect-card-in-edit-page"><%=  char.name%></a></h4>
+        <i><%= char.archetype %></i>
+        <br>
+        <div class="options-box"><a href="<%= char.id %>" class="remove-character-from-story">[Remove this character]</a></div>
+      </div>
+    <% end %>
+    <% end %>
+  </div>
+
+  <!-- refact -->
+
+  <hr>
   <h2><%= @story.name %></h2>
   By <%= @author.name %>
 
-  <p><%=  @story.story %></p>
+  <div class="passage approved">
+    <%=  @story.story %>
+  </div>
 
   <% @approved_passages.each do |pass|  %>
   <div class="passage approved">
-    <p><%=  pass.content %></p>
+    <%=  pass.content %>
   </div>
   <% end %>
   <div id="app_pass">
 
   </div>
+  <h3>Pending passages:</h3>
+  <div class="not-app-box" id="not-app-box">
+    <% @non_approved_passages.each do |pass|  %>
+    <p><div class="passage not_approved" id="nonapprovedpassage<%= pass.id %>">
+      <%=  pass.content%>
+      <hr>
+      <img class="template-avatar passage-avatar" src="<%=User.find(pass.user_id).avatar%>">
+      <div class="passage-author-box">
+        <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
+      </div>
+      <div class="options-box">
+        <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
+        <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
+      </div>
+    </div></p>
+    <% end %>
+    <br><br><br>
 
-
-  <% @non_approved_passages.each do |pass|  %>
-  <p><div class="passage not_approved" id="nonapprovedpassage<%= pass.id %>">
-    <%=  pass.content%>
-    <hr>
-    <img class="template-avatar passage-avatar" src="<%=User.find(pass.user_id).avatar%>">
-    <div class="passage-author-box">
-      <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
-    </div>
-    <div class="options-box">
-      <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
-      <a href="<%= pass.id %>" class="dismiss-passage-link">[x]</a>
-    </div>
-  </div></p>
-  <% end %>
+  </div>
   <br><br><br>
 </div>
+
+
+<!-- char select modal -->
+
+<div class="char-select-modal" id="char-select-modal">
+  <div class="options-box"><a href="#" class="close-char-select-modal">close</a>
+    <h2>Availiable characters</h2>
+    <% @cards.each do |char| %>
+
+
+    <div class="card-display-template modal-mode" id="aloted-card-display-template{{char.id}}">
+
+      <div class="inspect-card-box" id="inspect-card-box<%= char.id %>">
+        <h4><%=  char.name%></h4>
+        <i><%=  char.archetype%></i>
+        <hr>
+        <i><%=  char.deck_id%></i>
+        <hr>
+        <p><%= char.bio %></p>
+        <div class="options-box">
+          <a href="<%= char.id %>" class="hide-inspect-card-in-char-select-modal">[close]</a> <a href="<%= char.id %>" class="add-inspect-card-in-char-select-modal">[add character to story]</a></div>
+        </div>
+
+
+        <a href="<%= char.id %>" class="inspect-card-in-char-select-modal"><%=  char.name%></a>
+        <hr>
+        by: <i><%= User.find(char.user_id).name %></i>
+        <%=  char.tag_line%>
+        <br>
+        <a href="<%= char.id %>" class="add-inspect-card-in-char-select-modal">[add character to story]</a>
+
+      </div>
+
+      <% end %>
+
+
+    </div>
+  </div>
+
+

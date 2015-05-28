@@ -1,4 +1,5 @@
 class DecksController < ApplicationController
+  # before_action :authenticate_user!
   def create
     new_deck = Deck.create(name: params[:name], story:params[:story] , category:params[:category] , tag_line:params[:tag_line] , setting:params[:setting] , user_id: current_user.id)
     char_ids = params[:current_chars]
@@ -35,14 +36,18 @@ class DecksController < ApplicationController
     @story = Deck.find(params[:id])
     @approved_passages = @story.passages.select {|e| e.approved == true}
     @author = User.find(@story.user_id)
-
   end
 
   def show_edit
-    @story = Deck.find(params[:id])
-    @approved_passages = @story.passages.select {|e| e.approved == true}
-    @non_approved_passages = @story.passages.select {|e| e.approved == false}
-    @author = User.find(@story.user_id)
+    if current_user.id == Deck.find(params[:id]).user_id.to_i
+      @story = Deck.find(params[:id])
+      @approved_passages = @story.passages.select {|e| e.approved == true}
+      @non_approved_passages = @story.passages.select {|e| e.approved == false}
+      @author = User.find(@story.user_id)
+      @cards = Card.where(deck_id:nil)#.select {|e| e.deck_id == nil}
+    else
+      redirect_to '/error'
+    end
   end
 
   def new
