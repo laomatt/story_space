@@ -1,10 +1,10 @@
 html{
-  background-color: #F2F5A9;
+  background-color: #E0F8F1;
   font-family: Cambria, Georgia, serif;
 }
 
 header{
-  position: absolute;
+  position: fixed;
   background-color: #0B3861;
   width: 100%;
   height:5%;
@@ -54,7 +54,7 @@ body{
 }
 
 .big-avatar{
-  width: 75px;
+  width: 45px;
   /*height: 100%;*/
 }
 
@@ -107,9 +107,6 @@ body{
   z-index: 40;
   display: none;
 }
-.story-status-notification{
-  z-index: 40;
-}
 
 li{
   box-decoration-break: none;
@@ -120,21 +117,26 @@ li{
 .panel{
   position: relative;
   height: 800px;
+  /*height: 100%;*/
   width: 40%;
   top: 75px;
-  background-color: #F3E2A9;
+  background-color: #E0F8F1;
   margin: 2%;
-  /*vertical-align: top;*/
+  overflow: scroll;
+  border-color: white;
+  border-radius: 20px;
+  border-style: solid;
+  padding: 2%;
 }
 .profile-panel{
   position: absolute;
   background-color: transparent;
-
-  font-size: 35px;
+  font-size: 25px;
   /*line-height: 0pt;*/
   float: left;
   height: 70%;
   top: 0%;
+  overflow: scroll;
   /*width: 50%;*/
 }
 
@@ -147,15 +149,30 @@ li{
 }
 
 
+.profile-user-stories{
+  position: relative;
+  float: left;
+  top: 0%;
+  width: 40%;
+  height: 100%;
+}
+
+.profile-user-characters{
+  position: relative;
+  float: right;
+  top: 0%;
+  width: 40%;
+  height: 100%;
+}
+
 .user-info{
   float: left;
   width: 30%;
-  padding: 1%;
 }
 
 .current-decks{
   float: right;
-  width: 60%;
+  width: 50%;
   overflow: scroll;
 }
 
@@ -181,7 +198,7 @@ li{
 .users-cards{
   position: relative;
   width: 100%;
-  height: 70%;
+  height: 100%;
   /*bottom: 5%;*/
   overflow: scroll;
 
@@ -244,15 +261,19 @@ display: none;
 
 .card-display-template{
   position: relative;
-  width: 90%;
+  width: 80%;
   height: 200px;
   background-color: #F2F5A9;
   /*text-align: left;*/
   display: inline-block;
   direction: horizontal;
   margin: 1%;
+  float: center;
   overflow: scroll;
   padding: 5%;
+    border-radius: 10px;
+  border-style: solid;
+  border-color: #0B3861;
 }
 
 .create-new-story-cast-template{
@@ -316,7 +337,7 @@ display: none;
   padding: 4%;
   font-size: 20pt;
   display: inline;
-  width: 90%;
+  width: 100%;
   height:40%;
   z-index: 3;
   overflow: scroll;
@@ -373,6 +394,14 @@ display: none;
   width: 95%;
 }
 
+.published-deck{
+background-color: #81F79F;
+}
+
+.non-published-deck{
+  background-color: #E0F8F1;
+}
+
 .deck-display#h4{
   top: 50%;
 }
@@ -395,7 +424,95 @@ display: none;
   right: 0%;
 }
 
+.profile-info{
+float: right;
+position: relative;
+width: 70%;
+height: 100%;
+top: 0%;
+}
 
+.profile-avatar-holder{
+  position: relative;
+  float: left;
+  top: 0%;
+  left: 0%;
+  width: 20%;
+}
+
+.card-avatar-mod{
+  position: relative;
+height: 40%;
+width: 20%;
+
+}
+
+
+.card-avatar{
+  position: relative;
+  float: right;
+  top: 0%;
+  right: 0%;
+  width: 50px;
+  height: 50px;
+  background-color: yellow;
+  border-radius: 100px;
+  border-style: solid;
+  border-color: red;
+  z-index: 5;
+  overflow: hidden;
+
+}
+
+.profile-card-avatar{
+  width: 100%;
+  height: 100%;
+  background-color: yellow;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: red;
+  z-index: 5;
+}
+
+.story-list-cascade{
+  position: relative;
+  top: 10%;
+  left: 0%;
+  width: 90%;
+  height: 100%;
+border-radius: 0px;
+
+}
+
+.story-list-item{
+  width: 95%;
+  padding: 2%;
+}
+
+.odd{
+  background-color:#A9E2F3;
+
+}
+
+.even{
+  background-color:#81DAF5;
+
+}
+
+.public-card-profile-page{
+  padding: 4%;
+  overflow: scroll;
+  /*height: 100%;*/
+}
+
+.card-temp-info{
+  padding: 1%;
+}
+
+.card-dash-avatar{
+float: left;
+  border-radius: 10px;
+}
 
 .new-link-char{
   line-height: 20px;
@@ -459,6 +576,50 @@ display: none;
 
 }
 
+.public-profile-page{
+
+}
+
+
+.story-status-notification{
+  position: fixed;
+  background-color: yellow;
+  width: 80px;
+  height: 80px;
+  padding: 2%;
+  left: 50%;
+  z-index: 20;
+  line-height: 25px;
+  text-align: center;
+  overflow: scroll;
+  border-color: red;
+  border-style: solid;
+  border-radius: 200px;
+}
+
+
+
+.published-story{
+background-color:#81F79F;
+  border-color: red;
+  border-style: solid;
+
+}
+
+.non-published-story{
+background-color:#E0F8F1;
+  border-color: white;
+  border-style: solid;
+}
+
+
+.info-page p{
+text-align: justify;
+position: relative;
+width: 70%;
+left: 10%;
+}
+
 .story-display{
   top: 30%;
 }
@@ -489,10 +650,12 @@ display: none;
   height: 400px;
   width: 70%;
   overflow: scroll;
-  background-color: white;
+  background-color: transparent;
   /*padding: 4%;*/
   left: 10%;
   border-radius: 10px;
+  border-style: solid;
+  border-color: white;
 }
 
 .body-box{
@@ -647,7 +810,7 @@ display: none;
 .new-link{
   text-align: center;
   font-size: 15px;
-  height: 20px;
+  height: 10%;
   line-height: 10px;
 
 }

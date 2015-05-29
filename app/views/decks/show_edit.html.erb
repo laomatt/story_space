@@ -1,20 +1,22 @@
 <div class="story-created-notification" id="story-created-notification"></div>
 <div class="hidden" id="story_id_info" id2="<%= params[:id] %>"></div>
-<div class="whole-story-display">
-  <hr>
-  <div class="story-status-notification" id="story-status-notification">
+
     <% if @story.public == true %>
-    This story has been published. <a href="<%= @story.id %>" class="unpublish-current-deck-link">Click here to unpublish this</a><br>
-    <% else  %>
-    This story has not been published to the comunity yet. <a href="<%= @story.id %>" class="publish-current-deck-link">Click here to publish this</a>
-    <% end  %>
+  <div class="story-status-notification published-story" id="story-status-notification">
+    <b>Published.</b> <br><a href="<%= @story.id %>" class="unpublish-current-deck-link">Un-publish</a><br>
   </div>
-  <hr>
+    <% else  %>
+  <div class="story-status-notification non-published-story" id="story-status-notification">
+    <b>Non-published </b><br><a href="<%= @story.id %>" class="publish-current-deck-link">Publish</a>
+  </div>
+    <% end  %>
+
 
   <!-- refactor into handle bars -->
+    <% if @story.public == true %>
+<div class="whole-story-display published-story" id="story-container">
   <div class="current-cast-of-characters" id="current-cast-of-characters">
     Current cast list: <br>
-    <% if @story.public == true %>
       <div class="story-cast-list new-link new-link-char" style="display:none">
         <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
       </div>
@@ -24,10 +26,11 @@
 
 
                     <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
-                      <h4>  {{name}}</h4>
+                    <img class="card-avatar" src={{avatar}}>
+                      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
                       <i>  {{archetype}}</i>
                       <hr>
-                      <i>  {{deck_id}}</i>
+                      <i>  {{tag_line}}</i>
                       <hr>
                       <p> {{bio}} </p>
                         <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
@@ -36,7 +39,7 @@
                     </div>
 
 
-
+                    <img class="card-avatar" src={{avatar}}>
                 <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
                 <i>{{archetype}}</i>
                 <br>
@@ -44,7 +47,13 @@
               </div>
         {{/each}}
         </script>
+
+      </div>
+    <!-- </div> -->
     <% else %>
+    <div class="whole-story-display non-published-story" id="story-container">
+      <div class="current-cast-of-characters" id="current-cast-of-characters">
+    Current cast list: <br>
       <div class="story-cast-list new-link new-link-char">
         <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
       </div>
@@ -52,10 +61,11 @@
         {{#each cards}}
 
                     <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
-                      <h4>  {{name}}</h4>
+                    <img class="card-avatar" src={{avatar}}>
+                      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
                       <i>  {{archetype}}</i>
                       <hr>
-                      <i>  {{deck_id}}</i>
+                      <i>  {{tag_line}}</i>
                       <hr>
                       <p> {{bio}} </p>
                         <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
@@ -66,6 +76,7 @@
 
 
               <div class="story-cast-list" id="story-cast-list{{id}}">
+              <img class="card-avatar" src={{avatar}}>
                 <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
                 <i>{{archetype}}</i>
                 <br>
@@ -73,10 +84,11 @@
               </div>
         {{/each}}
         </script>
+  </div>
+  <!-- </div> -->
     <% end %>
 
 
-  </div>
 
   <!-- refact -->
 
@@ -106,10 +118,17 @@
       <div class="passage-author-box">
         <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
       </div>
-      <div class="options-box">
-        <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
-        <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
-      </div>
+      <% if @story.public == true %>
+        <div class="options-box" style="display:none">
+          <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
+          <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
+        </div>
+      <% else %>
+              <div class="options-box">
+          <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
+          <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
+        </div>
+      <% end %>
     </div></p>
     <% end %>
     <br><br><br>
@@ -133,7 +152,7 @@
         <h4><%=  char.name%></h4>
         <i><%=  char.archetype%></i>
         <hr>
-        <i><%=  char.deck_id%></i>
+        Original Author: <i><%=  User.find(char.user_id).name%></i>
         <hr>
         <p><%= char.bio %></p>
         <div class="options-box">

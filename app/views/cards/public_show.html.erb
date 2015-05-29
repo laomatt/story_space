@@ -1,0 +1,42 @@
+<div class="whole-story-display public-profile-page public-card-profile-page">
+
+  <div class="profile-avatar-holder card-avatar-mod">
+
+    <img class="profile-card-avatar" src="<%= @character.avatar %>">
+  </div>
+
+
+
+  <div class="panel profile-info">
+    <h1><%= @character.name %></h1>
+
+    <p><%= @character.bio %></p>
+  </div>
+
+
+  <div class="panel story-list-cascade">
+    <h4>Associated stories:</h4>
+    <% if @character.stories != nil %>
+
+
+    <% @character.stories.split(',').each_with_index do |deck_id, idx| %>
+      <% if idx%2==0  %>
+      <div class="story-list-item odd">
+      <% else %>
+      <div class="story-list-item even">
+      <% end %>
+        <a href="/decks/<%= deck_id %>"><%= Deck.find(deck_id).name %></a>
+
+  <div style="float:right"><%= Deck.find(deck_id).created_at.strftime("%m/%d/%Y") %></div>
+
+        <br>
+      </div>
+
+    <% end %>
+  </div>
+
+  <% end %>
+
+
+
+</div>

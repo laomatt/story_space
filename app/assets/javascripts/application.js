@@ -33,11 +33,16 @@ $(document).on("page:change", function(){
   $('header').on('click', '.comm-drop-link', function(event) {
     event.preventDefault();
     $("#comm-drop").slideDown('700', function() {});
-    // $("#comm-drop").on('click', function(event) {
-    //   event.preventDefault();
-    //   $(this).slideUp("700")
-    // });
   $("#comm-drop").on('mouseleave', function(event) {
+    event.preventDefault();
+    $(this).slideUp("700")
+  });
+});
+
+    $('header').on('click', '.informaion-drop-link', function(event) {
+    event.preventDefault();
+    $("#info-drop").slideDown('700', function() {});
+  $("#info-drop").on('mouseleave', function(event) {
     event.preventDefault();
     $(this).slideUp("700")
   });
@@ -165,9 +170,15 @@ $('body').on('click', '.publish-current-deck-link', function(event) {
     type: 'PATCH',
   })
   .done(function(data) {
-    $('#story-status-notification').html('This story has been published. <a href="'+id+'" class="unpublish-current-deck-link">Click here to unpublish this</a><br>')
-    $(".new-link-char").css('display','none')
-    $(".options-box").css('display','none')
+    $('#story-status-notification').html('<b>Published.</b> <br> <a href="'+id+'" class="unpublish-current-deck-link">Un-publish</a><br>')
+    $(".new-link-char").slideUp('800', function() {
+
+    $(".options-box").fadeOut('700', function() {
+
+      document.getElementById("story-container").className="whole-story-display published-story"
+      document.getElementById("story-status-notification").className="story-status-notification published-story"
+    });
+    });
   })
 });
 
@@ -180,9 +191,15 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
     type: 'PATCH',
   })
   .done(function(data) {
-    $('#story-status-notification').html('This story has not been published to the comunity yet. <a href="'+id+'" class="publish-current-deck-link">Click here to publish this</a>')
-    $(".new-link-char").css('display','block')
-    $(".options-box").css('display','block')
+    $('#story-status-notification').html('<b>Non-published </b><br><a href="'+id+'" class="publish-current-deck-link">Publish</a>')
+    // $(".new-link-char").css('display','block')
+    $(".new-link-char").slideDown('800', function() {
+    // $(".options-box").css('display','block')
+    $(".options-box").fadeIn('700', function() {
+      document.getElementById("story-container").className="whole-story-display non-published-story"
+      document.getElementById("story-status-notification").className="story-status-notification non-published-story"
+    });
+    });
 
   })
 });

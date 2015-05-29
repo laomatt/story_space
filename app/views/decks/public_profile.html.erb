@@ -1,0 +1,41 @@
+
+
+<div class="whole-story-display public-profile-page">
+
+  <div class="profile-avatar-holder">
+    <img class="profile-avatar" src="<%= @user.avatar %>"><br>
+<% if @user.last_sign_in_at != nil %>
+    Last signed in on <b><%= @user.last_sign_in_at.strftime(": %m/%d/%Y at %I:%M%p") %></b>
+<% else %>
+  User has never signed in
+<% end %>
+  </div>
+
+
+  <div class="panel profile-info">
+    <h1><%= @user.name %></h1>
+    <hr>
+
+
+
+    <p><i>"<%= @user.bio %>"</i></p>
+
+
+
+<div class="panel profile-user-stories">
+    <h4>Current stories:</h4>
+    <% @user.decks.each do |story| %>
+    <a href="/decks/<%=story.id%>"><li><%= story.name %><br></li></a>
+    <% end %>
+</div>
+
+<div class="panel profile-user-characters">
+    <h4>Authored characters:</h4>
+    <% @user.cards.each do |char| %>
+   <a href="/public_character/<%= char.id %>" <li><%= char.name %><br></li></a>
+    <% end %>
+</div>
+
+
+
+</div>

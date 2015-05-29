@@ -4,7 +4,7 @@
 <div id="story-info" story_id="<%= @story.id%>"></div>
 
 <h2><%= @story.name %></h2>
-By <%= @author.name %>
+By <a href="/public_profile/<%= @author.id %>" class="link-to-user-public-profile"><%= @author.name %></a>
 <div class="passage approved">
 <p><%=  @story.story%></p>
 </div>

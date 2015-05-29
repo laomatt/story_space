@@ -21,7 +21,8 @@ class CardsController < ApplicationController
   end
 
   def user_show
-    cards = Card.where(user_id:current_user.id)
+    u_decks=Deck.where(user_id:current_user.id)
+    cards = Card.all.select {|e| u_decks.map { |f| f.id }.include?(e.deck_id)}
     output=[]
     cards.each do |c|
       if c.deck_id != nil
@@ -76,6 +77,10 @@ class CardsController < ApplicationController
   def story_cards
     cards = Card.where(deck_id:params[:id])
     render :json => cards
+  end
+
+  def public_show
+    @character = Card.find(params[:id])
   end
 
   def main_show

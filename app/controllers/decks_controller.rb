@@ -23,6 +23,11 @@ class DecksController < ApplicationController
     render :json => output.shuffle.first(28)
   end
 
+  def public_profile
+    @user = User.find(params[:id])
+  end
+
+
   def user_show
     output=[]
     decks= Deck.where(user_id:params[:id])

@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {sessions: 'sessions', registrations: 'registrations'}
   get '/comm_page' => 'decks#main_show'
   get '/char_page' => 'cards#main_show'
+  get '/info' => 'home#info'
+  get '/faq' => 'home#faq'
+  get '/public_profile/:id' => 'decks#public_profile'
+  get '/public_character/:id' => 'cards#public_show'
 
   patch '/claim_card_for_deck' => 'cards#claim_for_deck'
   patch '/card_remove_from_story/:id' => 'cards#card_remove_from_story'
