@@ -15,9 +15,14 @@
 //= require turbolinks
 //= require handlebars
 //= require_tree .
-
-
 $(document).on("page:change", function(){
+
+var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
+
+firebase_notes.on('child_added', function(snapshot){
+
+})
+
 
   $('body').on('click', '.login-link', function(event) {
     event.preventDefault();
@@ -33,20 +38,20 @@ $(document).on("page:change", function(){
   $('header').on('click', '.comm-drop-link', function(event) {
     event.preventDefault();
     $("#comm-drop").slideDown('700', function() {});
-  $("#comm-drop").on('mouseleave', function(event) {
-    event.preventDefault();
-    $(this).slideUp("700")
+    $("#comm-drop").on('mouseleave', function(event) {
+      event.preventDefault();
+      $(this).slideUp("700")
+    });
   });
-});
 
-    $('header').on('click', '.informaion-drop-link', function(event) {
+  $('header').on('click', '.informaion-drop-link', function(event) {
     event.preventDefault();
     $("#info-drop").slideDown('700', function() {});
-  $("#info-drop").on('mouseleave', function(event) {
-    event.preventDefault();
-    $(this).slideUp("700")
+    $("#info-drop").on('mouseleave', function(event) {
+      event.preventDefault();
+      $(this).slideUp("700")
+    });
   });
-});
 
 
 
@@ -173,11 +178,11 @@ $('body').on('click', '.publish-current-deck-link', function(event) {
     $('#story-status-notification').html('<b>Published.</b> <br> <a href="'+id+'" class="unpublish-current-deck-link">Un-publish</a><br>')
     $(".new-link-char").slideUp('800', function() {
 
-    $(".options-box").fadeOut('700', function() {
+      $(".options-box").fadeOut('700', function() {
 
-      document.getElementById("story-container").className="whole-story-display published-story"
-      document.getElementById("story-status-notification").className="story-status-notification published-story"
-    });
+        document.getElementById("story-container").className="whole-story-display published-story"
+        document.getElementById("story-status-notification").className="story-status-notification published-story"
+      });
     });
   })
 });
@@ -199,7 +204,7 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
       document.getElementById("story-container").className="whole-story-display non-published-story"
       document.getElementById("story-status-notification").className="story-status-notification non-published-story"
     });
-    });
+  });
 
   })
 });
@@ -332,6 +337,7 @@ $('body').on('click', '.hide-claim-modal', function(event) {
 });
 
 //claims a card from the community selection
+
 $('body').on('submit', '.claim-this-card-from-community', function(event) {
   event.preventDefault();
   var id = $(this).attr('action');
@@ -345,6 +351,41 @@ $('body').on('submit', '.claim-this-card-from-community', function(event) {
     $('#community-card-display'+id).fadeOut('500', function() {});
   })
 });
+
+//claims card from the public page
+  //pops up modal from public page
+  $('body').on('click', '.claim-from-public-page', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href');
+    $("#claim-card-from-public-page-modal"+id).slideDown('500', function() {});
+  });
+
+  //hides modal from public page
+  $('body').on('click', '.hide-claim-modal-in-public-page', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('href');
+    $("#claim-card-from-public-page-modal"+id).slideUp('500')
+  });
+
+  //submit the form to the DB
+
+  $('body').on('submit', '.claim-this-card-from-public', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('action');
+    $.ajax({
+      url: '/claim_card_for_deck_from_public',
+      type: 'PATCH',
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      $("#claim-card-from-public-page-modal"+id).slideUp('500')
+      // $('#community-card-display'+id).fadeOut('500', function() {});
+      $("#what-story-associated-with").html('<b>Current story: </b><a href="/decks/'+data.id+'">'+data.name+'</a>')
+    })
+  });
+
+
+
 
 //remove char from a story
 $('body').on('click', '.remove-character-from-story', function(event) {

@@ -11,8 +11,6 @@
     url: '/cards',
   })
   .done(function(data) {
-  // debugger
-  // console.log(data);
   var context = { cards: data};
   var source = $("#card-template").html();
   var template = Handlebars.compile(source);

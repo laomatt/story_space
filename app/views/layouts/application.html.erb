@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 </head>
 <header>
   <%if user_signed_in? %>
@@ -12,15 +13,18 @@
   <div class="profile-panel">
     <a class="dash-link" href="/users/<%= current_user.id %>">
       <li><img class="small-avatar big-avatar" src="<%= current_user.avatar %>"></li>
-      <li><%=current_user.name%></li></a>
-
+      <li><b><%=current_user.name%></b></li></a><br>
+      <li class="prfile-sub-text"><a href="/users/show_decks/<%= current_user.id %>"> <%= current_user.decks.count %> Stories</a>, </li>
+      <li class="prfile-sub-text"><a href="/users/show_cards/<%= current_user.id %>"> <%= current_user.cards.count %> Characters owned</a>, </li>
+      <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <%= Passage.where(user_id:current_user.id).where(approved:false).count %> Pending passages</a>. </li>
+      <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <font color="red"><%= Passage.where(user_id:current_user.id).where(approved:true).count %></font> Approved passages</a>. </li>
     </div>
 
 
     <div class="control-panel">
       <li><a class="informaion-drop-link" href="#"><img class="small-avatar" title="Information" src="<%= asset_path( 'info.png' ) %>"></a></li>
-      <li><a class="messages" href="#"><img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>"></a></li>
-      <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"></a></li>
+      <li><img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>"></a></li>
+      <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"><div class="nav-bar-updates" id="notifications-update"></a></li>
 
       <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
 
@@ -69,6 +73,7 @@
       password:<input type="password" name="password"><br>
       <input type="submit" value="login">
       <a href="#" class="cancel-login-link">cancel</a><br>
+      No account? No problem! <a href="#" class="login-link">Sign-up</a> for one!
     </form>
 
     <form id="signup-form" action="<%=new_registration_path%>" method="POST" class="signup-form">
@@ -141,7 +146,6 @@
 </body>
 
 
-
 </html>
 
 <!-- template for the user dashboard stories -->
@@ -183,7 +187,7 @@ Are you sure you want to delete this entire story?<br>
 
 <div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
 <img class="card-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
 <h4>{{card.archetype}}</h4>
 <p>Are you sure you want to dismiss this character to the community?</p><br>
 
@@ -194,7 +198,7 @@ Are you sure you want to delete this entire story?<br>
 
 <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
 <img class="card-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
 <h4>{{card.archetype}}</h4>
 <i>by: {{user.name}}</i>
 <p>{{card.bio}}</p>
@@ -207,7 +211,7 @@ Are you sure you want to delete this entire story?<br>
 <li><img class="card-avatar card-dash-avatar" src={{card.avatar}}></li><br>
 <li>
 <div class="card-temp-info">
-<h2>{{card.name}}</h2>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
 </li>
 <i>by: {{user.name}}</i>
 <br>
@@ -241,9 +245,9 @@ Current story: <b><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></b>
 <br>
 <div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="select-this-card">[select]</a></div>
 <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
 <h4>{{card.archetype}}</h4>
-<i>by: {{user.name}}</i>
+<i>by: <a href="/public_profile/{{user.id}}">{{user.name}}</a></i>
 <br>
 <hr>
 <p>{{card.tag_line}}</p>
@@ -268,9 +272,9 @@ Current story: <b><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></b>
 <a href="{{card.id}}" class="claim-this-card-from-community">[claim]</a>
 </div>
 <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
+<h2><a href="/public_character/{{card.id}}" >{{card.name}}</a></h2>
 <h4>{{card.archetype}}</h4>
-<i>by: {{user.name}}</i>
+<i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</a></i>
 <p>{{card.bio}}</p>
 <hr>
 
@@ -286,6 +290,7 @@ Associated stories:<br>
 
 
 <div class="claim-card-modal" id="claim-card-modal{{card.id}}">
+<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
 <h2>{{card.name}}</h2>
 <h4>{{card.archetype}}</h4>
 <i>by: {{user.name}}</i>
@@ -309,13 +314,15 @@ Which story do you want to claim this character for?<br>
 
 <div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="pop-up-claim-card-modal">[claim]</a></div>
 <br>
+<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
 <h2><a href="{{card.id}}" class="inspect-this-card">{{card.name}}</a></h2>
 
 <i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</i>
 <br>
 <hr>
-<p>{{card.tag_line}}</p>
-
+<p><i>"{{card.tag_line}}"</i></p>
+<hr>
+<p>{{card.bio}}</p>
 </div>
 
 

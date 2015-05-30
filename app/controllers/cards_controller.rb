@@ -52,6 +52,12 @@ class CardsController < ApplicationController
     render :json => card
   end
 
+  def claim_for_deck_from_public
+    card = Card.find(params[:card_id])
+    card.update_attributes(deck_id:params[:deck_id])
+    render :json => Deck.find(card.deck_id)
+  end
+
 
   def destroy
     card=Card.find(params[:id])
@@ -81,6 +87,12 @@ class CardsController < ApplicationController
 
   def public_show
     @character = Card.find(params[:id])
+    @user = User.find(@character.user_id)
+    if @character.deck_id != nil
+      @story = Deck.find(@character.deck_id)
+    else
+      @story="This character is availiable"
+    end
   end
 
   def main_show

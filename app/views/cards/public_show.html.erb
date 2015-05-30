@@ -9,8 +9,17 @@
 
   <div class="panel profile-info">
     <h1><%= @character.name %></h1>
-
+by: <i><a href="/public_profile/<%= @user.id %>"><%= @user.name %></a></i>
     <p><%= @character.bio %></p>
+    <div id="what-story-associated-with">
+    <% if @character.deck_id != nil %>
+    <b>Current story: </b><a href="/decks/<%= @story.id %>"><%= @story.name %></a>
+    <% elsif current_user != nil %>
+    <a href="<%= @character.id %>" class="claim-from-public-page">[Claim <%= @character.name %> for one of your stories]</a>
+    <% else  %>
+    <a href="#" class="login-link">Login to claim this <%= @character.name %></a>.
+    <% end  %>
+    </div>
   </div>
 
 
@@ -35,7 +44,41 @@
     <% end %>
   </div>
 
+  <% else %>
+  No Stories associated with <%=@character.name %> yet ... <a href="<%= @character.id %>" class="claim-from-public-page">click here to claim <%= @character.name %> for one of your stories</a>
   <% end %>
+
+
+
+<!-- modal for char claim -->
+<div class="claim-card-modal" id="claim-card-from-public-page-modal<%= @character.id %>" style="display:none">
+<img class="card-avatar card-dash-avatar" src="<%= @character.avatar %>">
+<h2><%= @character.name %></h2>
+<h4><%= @character.archetype %></h4>
+<i>by: <%= @user.name %></i>
+<p><%= @character.bio %></p>
+<hr>
+
+<% if current_user != nil  %>
+<form class="claim-this-card-from-public" action="<%= @character.id %>">
+Which story do you want to claim this character for?<br>
+<select class="list-of-users-stories" name="deck_id">
+<% current_user.decks.each do |thing| %>
+<option value="<%= thing.id %>"><%= thing.name %></option>
+<% end %>
+</select>
+<input type="hidden" name="card_id" value="<%= @character.id %>">
+<input type="submit" value="claim">
+</form>
+<% else %>
+You must be a member of the community to claim a character
+<% end %>
+<hr>
+<a href="<%= @character.id %>" class="hide-claim-modal-in-public-page">[cancel]</a>
+</div>
+<!-- modal for char claim -->
+
+
 
 
 

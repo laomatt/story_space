@@ -9,7 +9,6 @@
 
 
 <script>
-
 $.ajax({
   url: '/decks',
 })
@@ -21,7 +20,5 @@ $.ajax({
   var template = Handlebars.compile(source);
   var html = template(context);
   $('#welcome').html(html)
-
 })
-
 </script>

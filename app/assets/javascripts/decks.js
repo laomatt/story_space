@@ -24,6 +24,12 @@ $('body').on('click', '.add-passage-to-story', function(event) {
 $('body').on('submit', '.new-passage-form', function(event) {
   event.preventDefault();
   var story_id=$("#story-info").attr("story_id")
+  var author_id=$("#story-info").attr("author_id")
+  var story_name=$("#story-info").attr("story_name")
+  var note = "Your story "+story_name+" has gotten a new passage suggestion"
+  //this is where we push a notification to fire base
+firebase_notes.push({user_id:author_id, note:note})
+
   $.ajax({
     url: '/passages',
     type: 'POST',
@@ -31,9 +37,15 @@ $('body').on('submit', '.new-passage-form', function(event) {
   })
   .done(function(data) {
     debugger
-    console.log(data)
-    $(".new-passage-container").fadeOut(1000, function() {});
+    $(".new-passage-container").fadeOut(1000, function() {
     $(".add-passage-to-story").fadeIn(400, function() {});
+
+    });
+    $("#sent-banner").fadeIn(1000, function() {
+      $("#sent-banner").fadeOut(1000, function() {
+      });
+    });
+    $(this).trigger('reset')
   })
 
 });

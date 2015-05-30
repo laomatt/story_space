@@ -1,7 +1,45 @@
 
-
+<div class="hidden" id="story_id_info" id2="<%= params[:id] %>"></div>
 <div class="whole-story-display story-display" id="story-display">
-<div id="story-info" story_id="<%= @story.id%>"></div>
+<div id="story-info" story_id="<%= @story.id%>" user_id="<%= @author.id%>" story_name="<%= Deck.find(@story.id).name%>"></div>
+
+  <div class="current-cast-of-characters" id="current-cast-of-characters">
+    Current cast list: <br>
+      <div class="story-cast-list new-link new-link-char" style="display:none">
+        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
+      </div>
+        <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
+        {{#each cards}}
+              <div class="story-cast-list" id="story-cast-list{{id}}">
+
+
+                    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
+                    <img class="card-avatar" src={{avatar}}>
+                      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
+                      <i>  {{archetype}}</i>
+                      <hr>
+                      <i>  {{tag_line}}</i>
+                      <hr>
+                      <p> {{bio}} </p>
+                        <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
+                      <div class="options-box">
+                        </div>
+                    </div>
+
+
+                    <img class="card-avatar" src={{avatar}}>
+                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+                <i>{{archetype}}</i>
+                <br>
+                <div class="options-box" style="display:none"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
+              </div>
+        {{/each}}
+        </script>
+
+      </div>
+
+<!-- </div> -->
+
 
 <h2><%= @story.name %></h2>
 By <a href="/public_profile/<%= @author.id %>" class="link-to-user-public-profile"><%= @author.name %></a>
@@ -14,14 +52,50 @@ By <a href="/public_profile/<%= @author.id %>" class="link-to-user-public-profil
 </div>
 <% end %>
 <div class="new-passage-container" id="new-passage-container">
+<% if current_user != nil %>
   <form class="new-passage-form">
     <textarea name="content" class="new-passage-content"></textarea><br>
     <input type="hidden" name="storyid" value="<%= @story.id%>">
     <input type="hidden" name="userid" value="<%= current_user.id%>">
     <input type="submit" value="suggest this">
   </form>
-</div>
-<div class="sent-banner" id="sent-banner">Paragraph sent!</div>
-<a href="#" class="add-passage-to-story">Add Passage</a>
+<% end  %>
 
 </div>
+<% if current_user != nil %>
+<a href="#" class="add-passage-to-story">Add Passage</a>
+<% else  %>
+<a href="#" class="login-link">Add Passage</a>
+<% end  %>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
+<div class="sent-banner" id="sent-banner">Paragraph sent!</div>
+
+
+<script type="text/javascript">
+
+$.ajax({
+  url: '/story_cards/'+$("#story_id_info").attr('id2'),
+})
+.done(function(data) {
+  var context = { cards: data};
+  var source = $("#edit-page-character-list-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-cast-of-characters').append(html)
+})
+
+
+</script>

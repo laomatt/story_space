@@ -25,6 +25,7 @@ class DecksController < ApplicationController
 
   def public_profile
     @user = User.find(params[:id])
+    @public_decks = @user.decks.select{|e| e.public}
   end
 
 

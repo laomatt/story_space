@@ -20,7 +20,7 @@
     <hr>
     Cast:<br>
     <div id="current-deck-cards">
-      <div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="cast-a-character">+</a></div>
+      <div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="cast-a-character">Add new character to this story</a></div>
 
 
 
@@ -49,7 +49,7 @@ $.ajax({
   var source = $("#cast-card-template").html();
   var template = Handlebars.compile(source);
   var html = template(context);
-  $('#char-select-box').html('<div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="create-new-character">+</a></div>'+html)
+  $('#char-select-box').html('<div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="create-new-character">Create a new character</a></div>'+html)
 })
 
 

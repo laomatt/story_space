@@ -1,0 +1,70 @@
+
+<div id="user-info" player_id="<%=current_user.id%>">
+  <div class="panel user-info" style="width:90%">
+    <center><h4><%= @user_cards.count %> characters currently appearing in your stories:</h4></center>
+    <div class="users-cards" id="current-cards">
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+  $.ajax({
+  url: '/user_cards',
+})
+.done(function(data) {
+  var context = { cards: data};
+  var source = $("#user-card-template-show-cards").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-cards').html('<div style="width:20%;" class="card-display-template" ><a href="#" class="create-new-character">Create new character</a></div>'+html)
+})
+
+
+</script>
+
+<script id="user-card-template-show-cards" type="text/x-handlebrs-template">
+{{#each cards}}
+<div style="width:20%;" class="card-display-template" id="card-display-template{{card.id}}">
+
+<div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
+<img class="card-avatar" src={{card.avatar}}>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+<h4>{{card.archetype}}</h4>
+<p>Are you sure you want to dismiss this character to the community?</p><br>
+
+<a href="{{card.id}}" class="confirm-character-delete">[Dismiss to community]</a>|
+<a href="{{card.id}}" class="cancel-character-delete">[Cancel]</a>
+</div>
+
+
+<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+<img class="card-avatar" src={{card.avatar}}>
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+<h4>{{card.archetype}}</h4>
+<i>by: {{user.name}}</i>
+<p>{{card.bio}}</p>
+<a href="{{card.id}}" class="close-this-card">close</a>
+</div>
+
+
+<br>
+<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[dismiss]</a></div>
+<li><img class="card-avatar card-dash-avatar" src={{card.avatar}}></li><br>
+<li>
+<div class="card-temp-info">
+<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+</li>
+<i>by: {{user.name}}</i>
+<br>
+Current story: <b><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></b>
+<hr>
+<p>{{card.tag_line}}</p>
+</div>
+</div>
+
+
+{{/each}}
+</script>

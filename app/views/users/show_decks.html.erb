@@ -1,0 +1,58 @@
+<div class="whole-story-display">
+<div id="user-info" player_id="<%=current_user.id%>">
+<div class="panel current-decks" style="width:90%">
+    <center><h4>You have started <%= @user_decks.count %> stories:</h4></center>
+      <div class="users-decks" id="current-decks">
+      </div>
+
+</div>
+</div>
+
+
+
+<script>
+
+$.ajax({
+  url: '/user_decks/'+$("#user-info").attr("player_id"),
+})
+.done(function(data) {
+  var context = { decks: data};
+  var source = $("#user-deck-template-show-decks").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#current-decks').html('<div class="deck-display user-deck-display new-link"><a href="/decks/new" class="create-new-story">Create new story</a></div>'+html)
+
+})
+
+</script>
+
+
+<script id="user-deck-template-show-decks" type="text/x-handlebrs-template">
+{{#each decks}}
+
+<div class="deck-display user-deck-display show_decks_template" id="deck-user-display{{deck.id}}">
+
+<div class="delete-deck-confirmation" id="delete-deck-confirmation{{deck.id}}">
+Are you sure you want to delete this entire story?<br>
+<h2>{{deck.name}}</h2>
+<i>by: {{user.name}}</i>
+<p>{{deck.tag_line}}</p>
+<a href="{{deck.id}}" class="confirm-story-delete">Confirm</a>|
+<a href="{{deck.id}}" class="cancel-story-delete">Cancel</a>
+</div>
+
+
+<br>
+<div id='deck_options{{deck.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a><a href="{{deck.id}}" class="initiate-story-deletion">[x]</a></div>
+<h2><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></h2>
+
+<i>by: {{user.name}}</i>
+<br>
+<hr>
+<p>{{deck.tag_line}}</p>
+
+</div>
+
+
+{{/each}}
+</script>

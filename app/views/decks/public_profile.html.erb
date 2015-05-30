@@ -23,8 +23,8 @@
 
 
 <div class="panel profile-user-stories">
-    <h4>Current stories:</h4>
-    <% @user.decks.each do |story| %>
+    <h4>Current published stories:</h4>
+    <% @public_decks.each do |story| %>
     <a href="/decks/<%=story.id%>"><li><%= story.name %><br></li></a>
     <% end %>
 </div>

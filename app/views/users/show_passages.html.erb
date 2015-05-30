@@ -1,0 +1,28 @@
+
+
+<div class="whole-story-display">
+
+  <% @passages.each do |pass| %>
+<% if pass.approved == true  %>
+  <div class="story-list-item">
+[Approved!]
+<% else  %>
+  <div class="story-list-item" style="background-color:#F5BCA9; color:white">
+[Not-approved-yet]<a href="#" class="delete-passage-from-user-page">[delete]</a>
+<% end  %>
+
+    <% if Deck.exists?(pass.deck_id) %>
+    <a href="/decks/<%= Deck.find(pass.deck_id).id %>"><%= pass.content %></a>
+
+    <% else %>
+    <%= pass.content %> (this story has been deleted)
+    <% end %>
+
+    <div style="float:right"><%= pass.created_at.strftime("%m/%d/%Y") %></div>
+
+    <br>
+  </div>
+  <% end %>
+
+
+</div>
