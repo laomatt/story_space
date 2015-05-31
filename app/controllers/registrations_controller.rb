@@ -2,10 +2,16 @@ class RegistrationsController < DeviseController
   protect_from_forgery except: :sign_in
   prepend_before_filter :require_no_authentication, only: [:new, :create, :cancel]
   def new
-      @user = User.create(email:params[:email], password:params[:password],name:params[:username],avatar:params[:avatar])
-      # @user.save
-      sign_in(@user)
-      redirect_to "/users/#{@user.id}"
+    User.create(email:params[:email], password:params[:password],name:params[:username],avatar:params[:avatar])
+    user = User.find_by(email:params[:email])
+      sign_in(user)
+      p 'h'*90
+      p current_user
+      p user_signed_in?
+      p 'h'*90
+
+      # redirect_to "/users/#{user.id}"
+      redirect_to "/"
   end
 
 
