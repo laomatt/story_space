@@ -15,6 +15,8 @@
 //= require turbolinks
 //= require handlebars
 //= require_tree .
+
+
 $(document).on("page:change", function(){
   var current_user_id = $("#users_info").attr("user_id")
   var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
