@@ -4,6 +4,7 @@ class RegistrationsController < DeviseController
   def new
       @user = User.create(email:params[:email], password:params[:password],name:params[:username],avatar:params[:avatar])
       # @user.save
+      sign_in(@user)
       redirect_to "/users/#{@user.id}"
   end
 
