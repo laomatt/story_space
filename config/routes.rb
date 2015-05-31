@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   get '/public_profile/:id' => 'decks#public_profile'
   get '/public_character/:id' => 'cards#public_show'
 
+  get '/users/show_cards/:id' => 'users#show_cards'
+  get '/users/show_decks/:id' => 'users#show_decks'
+  get '/users/show_passages/:id' => 'users#show_passages'
+
   patch '/claim_card_for_deck' => 'cards#claim_for_deck'
+  patch '/claim_card_for_deck_from_public' => 'cards#claim_for_deck_from_public'
   patch '/card_remove_from_story/:id' => 'cards#card_remove_from_story'
   get '/user_decks/:id' => 'decks#user_show'
   get '/user_cards' => 'cards#user_show'
@@ -15,26 +20,24 @@ Rails.application.routes.draw do
   get '/edit_deck/:id' => 'decks#show_edit'
   get '/user_cast_cards' => 'decks#user_cast_cards'
   get '/story_cards/:id' => 'cards#story_cards'
-# this claims a card
   patch 'card_claim/:id' => 'cards#claim'
-#dismiss a passage
 
-  patch '/decks/:deck_id/cards/:id' => 'cards#assign_to_deck'
-  patch '/deck_publish/:id' => 'decks#publish'
-  patch '/deck_unpublish/:id' => 'decks#unpublish'
-  patch '/dissmiss_cards/:id' => 'cards#dismiss'
-  patch '/passage/approve_passage/:id' => 'passages#approve_passage'
-  patch '/passage/disapprove_passage/:id' => 'passages#disapprove_passage'
-  devise_scope :user do
-    post 'new_registration' => 'registrations#new'
-    get 'new_user_session' => 'sessions#new'
-    get '/users/log_out' => 'sessions#destroy'
-  end
+patch '/decks/:deck_id/cards/:id' => 'cards#assign_to_deck'
+patch '/deck_publish/:id' => 'decks#publish'
+patch '/deck_unpublish/:id' => 'decks#unpublish'
+patch '/dissmiss_cards/:id' => 'cards#dismiss'
+patch '/passage/approve_passage/:id' => 'passages#approve_passage'
+patch '/passage/disapprove_passage/:id' => 'passages#disapprove_passage'
+devise_scope :user do
+  post 'new_registration' => 'registrations#new'
+  get 'new_user_session' => 'sessions#new'
+  get '/users/log_out' => 'sessions#destroy'
+end
 
-  resources :users
-  resources :decks
-  resources :cards
-  resources :passages
+resources :users
+resources :decks
+resources :cards
+resources :passages
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   # get 'after_sign_in_path_for_users' => 'user#show'
