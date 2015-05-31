@@ -26,6 +26,20 @@ footer {
   background-color: green;
 }
 
+.sign-up-section-home{
+  position: relative;
+  padding: 3%;
+  background-color: white;
+  top: 1%;
+  width: 20%;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: blue;
+  margin: 0 auto;
+  z-index: 30;
+
+}
+
 .error-message{
   position: fixed;
   top: 40%;
@@ -73,9 +87,11 @@ body{
   position: relative;
   background-color: white;
   width: 50px;
+  height: 50px;
   border-radius: 100px;
   border-style: solid;
   border-color: white;
+  overflow: hidden;
 }
 
 .big-avatar{
