@@ -1,4 +1,5 @@
 $(document).on("page:change", function(){
+var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
 
   $('body').on('click', '.cast-a-character', function(event) {
     event.preventDefault();
@@ -24,11 +25,12 @@ $('body').on('click', '.add-passage-to-story', function(event) {
 $('body').on('submit', '.new-passage-form', function(event) {
   event.preventDefault();
   var story_id=$("#story-info").attr("story_id")
-  var author_id=$("#story-info").attr("author_id")
+  var author_id=$("#story-info").attr("user_id")+""
   var story_name=$("#story-info").attr("story_name")
   var note = "Your story "+story_name+" has gotten a new passage suggestion"
-  //this is where we push a notification to fire base
-firebase_notes.push({user_id:author_id, note:note})
+
+  //this is where we push a notification to firebase
+firebase_notes.push({user_id:author_id, note:note, story:story_id})
 
   $.ajax({
     url: '/passages',
@@ -36,7 +38,8 @@ firebase_notes.push({user_id:author_id, note:note})
     data: $(this).serialize(),
   })
   .done(function(data) {
-    debugger
+    // debugger
+
     $(".new-passage-container").fadeOut(1000, function() {
     $(".add-passage-to-story").fadeIn(400, function() {});
 
@@ -45,10 +48,13 @@ firebase_notes.push({user_id:author_id, note:note})
       $("#sent-banner").fadeOut(1000, function() {
       });
     });
+  }).always(function(){
     $(this).trigger('reset')
   })
 
 });
+
+
 
 
         //approve a passage

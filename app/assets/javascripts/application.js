@@ -16,12 +16,28 @@
 //= require handlebars
 //= require_tree .
 $(document).on("page:change", function(){
+  var current_user_id = $("#users_info").attr("user_id")
+  var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
+  var values= 0
+  var firebase_hash={}
+  firebase_notes.orderByChild("user_id").on('child_added', function(snapshot){
+    if($("#users_info").attr("user_id")==snapshot.val().user_id)
+    {
+      firebase_hash[snapshot.val().story]=snapshot.ref()
+      // console.log(snapshot.ref())
+      values+=1
+      $("#nav-bar-updates-note").slideDown('800', function() {
+        $("#nav-bar-updates-note").text(values)
+        $("#note-drop").append('<li><a href="/edit_deck/'+snapshot.val().story+'" story_id="'+snapshot.val().story+'" class="note-story-link-check">'+snapshot.val().note+'</a></li><br><hr>')
+      });
+    }
+    })
 
-var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
 
-firebase_notes.on('child_added', function(snapshot){
-
-})
+$('body').on('click', '.note-story-link-check', function(event) {
+  var id = $(this).attr('story_id');
+  firebase_hash[id].remove();
+});
 
 
   $('body').on('click', '.login-link', function(event) {
@@ -43,6 +59,16 @@ firebase_notes.on('child_added', function(snapshot){
       $(this).slideUp("700")
     });
   });
+
+  $('header').on('click', '.note-drop-link', function(event) {
+    event.preventDefault();
+    $("#note-drop").slideDown('700', function() {});
+    $("#note-drop").on('mouseleave', function(event) {
+      event.preventDefault();
+      $(this).slideUp("700")
+    });
+  });
+
 
   $('header').on('click', '.informaion-drop-link', function(event) {
     event.preventDefault();

@@ -9,11 +9,11 @@
 </head>
 <header>
   <%if user_signed_in? %>
-
+<div id="users_info" user_id="<%= current_user.id %>">
   <div class="profile-panel">
     <a class="dash-link" href="/users/<%= current_user.id %>">
       <li><img class="small-avatar big-avatar" src="<%= current_user.avatar %>"></li>
-      <li><b><%=current_user.name%></b></li></a><br>
+      <li><b><%=current_user.name%></b></li></a>
       <li class="prfile-sub-text"><a href="/users/show_decks/<%= current_user.id %>"> <%= current_user.decks.count %> Stories</a>, </li>
       <li class="prfile-sub-text"><a href="/users/show_cards/<%= current_user.id %>"> <%= current_user.cards.count %> Characters owned</a>, </li>
       <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <%= Passage.where(user_id:current_user.id).where(approved:false).count %> Pending passages</a>. </li>
@@ -24,7 +24,11 @@
     <div class="control-panel">
       <li><a class="informaion-drop-link" href="#"><img class="small-avatar" title="Information" src="<%= asset_path( 'info.png' ) %>"></a></li>
       <li><img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>"></a></li>
-      <li><a class="notifications" href="#"><img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>"><div class="nav-bar-updates" id="notifications-update"></a></li>
+      <li>
+        <a class="note-drop-link" href="#">
+          <img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>">
+          <div class="nav-bar-updates-note" id="nav-bar-updates-note"></div>
+          </a></li>
 
       <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
 
@@ -33,6 +37,8 @@
         <hr>
         <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
       </div>
+
+      <div class="note-drop" id="note-drop"></div>
 
 
 
