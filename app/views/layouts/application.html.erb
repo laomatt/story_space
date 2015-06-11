@@ -5,19 +5,33 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="bootstrap/less/jumbotron.less" rel="stylesheet">
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 </head>
 <header>
   <%if user_signed_in? %>
-<div id="users_info" user_id="<%= current_user.id %>">
-  <div class="profile-panel">
-    <a class="dash-link" href="/users/<%= current_user.id %>">
-      <li><img class="small-avatar big-avatar" src="<%= current_user.avatar %>"></li>
-      <li><b><%=current_user.name%></b></li></a>
-      <li class="prfile-sub-text"><a href="/users/show_decks/<%= current_user.id %>"> <%= current_user.decks.count %> Stories</a>, </li>
-      <li class="prfile-sub-text"><a href="/users/show_cards/<%= current_user.id %>"> <%= current_user.cards.count %> Characters owned</a>, </li>
-      <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <%= Passage.where(user_id:current_user.id).where(approved:false).count %> Pending passages</a>. </li>
-      <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <font color="red"><%= Passage.where(user_id:current_user.id).where(approved:true).count %></font> Approved passages</a>. </li>
+  <a href="#" class="show-player-dash"><img class="small-avatar" src="<%= current_user.avatar %>"></a>
+  <div id="users_info" user_id="<%= current_user.id %>">
+
+
+    <div class="profile-panel" id="profile-panel">
+
+      <div class="player-avatar-container" id="player-avatar-container">
+        <img class="big-avatar" src="<%= current_user.avatar %>">
+      </div>
+      <div class="player-info-dash-box">
+        <li><a class="dash-link" href="/users/<%= current_user.id %>"><b><%=current_user.name%></b></a></li><br><hr>
+        <li class="prfile-sub-text"><a href="/users/show_decks/<%= current_user.id %>"> <%= current_user.decks.count %> Stories</a><br> </li>
+        <li class="prfile-sub-text"><a href="/users/show_cards/<%= current_user.id %>"> <%= current_user.cards.count %> Characters owned</a><br> </li>
+        <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <%= Passage.where(user_id:current_user.id).where(approved:false).count %> Pending passages</a><br> </li>
+        <li class="prfile-sub-text"><a href="/users/show_passages/<%= current_user.id %>"> <font color="red"><%= Passage.where(user_id:current_user.id).where(approved:true).count %></font> Approved passages</a> </li>
+      </div>
+      <br><br><br><hr>
+      <a href="#" class="hide-profile-button">[close]</a>
     </div>
 
 
@@ -28,334 +42,348 @@
         <a class="note-drop-link" href="#">
           <img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>">
           <div class="nav-bar-updates-note" id="nav-bar-updates-note"></div>
-          </a></li>
+        </a></li>
 
-      <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
+        <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
 
-      <div class="comm-drop" id="comm-drop">
-        <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
-        <hr>
-        <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
+        <div class="comm-drop" id="comm-drop">
+          <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
+          <hr>
+          <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
+        </div>
+
+        <div class="note-drop" id="note-drop"></div>
+
+
+
+        <div class="info-drop" id="info-drop">
+          <li><a class="faq-link" href="/faq">FAQ</a></li><br>
+          <hr>
+          <li><a class="howitworks-link" href="/info">How this all works</a></li>
+        </div>
+
+
+        <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
       </div>
 
-      <div class="note-drop" id="note-drop"></div>
+      <%else%>
 
 
+      <div class="profile-panel">
+        <li> No User signed in </li>
 
-      <div class="info-drop" id="info-drop">
-        <li><a class="faq-link" href="/faq">FAQ</a></li><br>
-        <hr>
-        <li><a class="howitworks-link" href="/info">How this all works</a></li>
       </div>
 
 
-      <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
+      <div class="control-panel">
+
+      <form method="GET" action="<%=new_user_session_path%>">
+        e-mail:<input type="text" name="email">
+        password:<input type="password" name="password">
+        <input type="submit" value="login">
+      </form>
+
+       <li>  <a href="#" class="login-link">login</a></li>
+       <li> <a href="#" class="signup-link">sign-up</a></li>
+     </div>
+     <%end%>
+
+   </header>
+   <br><br>
+
+   <body>
+    <!-- modal for login and sign up -->
+    <div class="form">
+
+      <form id="login-form" class="login-form" method="GET" action="<%=new_user_session_path%>">
+        e-mail:<input type="text" name="email"><br>
+        password:<input type="password" name="password"><br>
+        <input type="submit" value="login">
+        <a href="#" class="cancel-login-link">cancel</a><br>
+      </form>
+
+      <form id="signup-form" action="<%=new_registration_path%>" method="POST" class="signup-form">
+        e-mail:<input type="text" name="email"><br>
+        username:<input type="text" name="username"><br>
+        avatar url:<input type="text" name="avatar"><br>
+        password:<input type="password" name="password"><br>
+        Confirm password:<input type="password" name="confirm"><br>
+        <input type="submit" value="signup">
+        <a href="#" class="cancel-signup-link">cancel</a><br>
+      </form>
+      <hr>
+      <center>or</center>
+      <hr>
+      <center><a href="/login_with_google"><img class="login-link google-login" src="https://developers.google.com/accounts/images/sign-in-with-google.png"></a></center>
+      <center><img class="login-link facebook-login" src="https://s3.amazonaws.com/com.offerpop.services.media/images/media/551ab6e8ef95a64352493e40/551ab6e9ef95a64376b08d61.PNG"></center>
+      <center><img class="login-link twitter-login" src="http://www.portlandbuttonworks.com/image/data/twitter.png"></center>
+
+
+
+
     </div>
 
-    <%else%>
+    <% if user_signed_in? %>
+    <!-- modal for character creation -->
+    <div class="create-a-card" id="create-a-card">
+      <form class="new-card-form" id="new-card-form">
+        What is this character called?<br>
+        <input type="text" class="new-character-field" name="name"><br>
+        In one line sell this character to a story teller...<br>
+        <input type="text" class="new-character-field" name="tag_line"><br>
+        What time for place does this character belong to?<br>
+        <input type="text" class="new-character-field" name="setting"><br><br>
+        <!-- <input type="text" class="new-character-field" name="archetype"><br> --><br>
+        What is the archetype your character would typically be used for?<br>
+        <select class="new-character-field"  name="archetype">
+          <option value="Leader">Leader</option>
+          <option value="Romantic interest">Romantic interest</option>
+          <option value="Damsel">Damsel</option>
+          <option value="Comedian">Comedian</option>
+          <option value="Villain">Villain</option>
+          <option value="Hero">Hero</option>
+          <option value="Crusader">Crusader</option>
+          <option value="Sage">Sage</option>
+          <option value="Weasel">Weasel</option>
+          <option value="Loner">Loner</option>
+          <option value="Geek">Geek</option>
+          <option value="Innocent">Innocent</option>
+          <option value="Wildcard">Wildcard</option>
+          <option value="Friend">Friend</option>
+          <option value="Other">Other</option>
+        </select><br>
+        <hr>
+        Which one of your stories (if any) would you like this character for?
+        <select class="which-story-initiate" name="deck_id">
+          <% Deck.where(user_id: current_user.id).each do |story| %>
+          <option value="<%= story.id %>"><%= story.name %></option>
+          <% end  %>
+          <option value="_">None (auto make card public)</option>
+        </select>
+        <hr>
+        Write a short bio for this character<br>
+        <textarea class="new-character-field new-character-bio" name="bio"></textarea><br>
 
+        <input class="submit-button" type="submit" value="create">
+      </form>
 
-    <div class="profile-panel">
-      <li> No User signed in </li>
+      <a href="#" class="hide-char-create-box">Cancel</a>
 
     </div>
+    <% end  %>
 
 
-    <div class="control-panel">
-     <li>  <a href="#" class="login-link">login</a></li>
-     <li> <a href="#" class="signup-link">sign-up</a></li>
-   </div>
-   <%end%>
 
- </header>
- <br><br>
 
- <body>
-  <!-- modal for login and sign up -->
-  <div class="form">
+    <%= yield %>
 
-    <form id="login-form" class="login-form" method="GET" action="<%=new_user_session_path%>">
-      e-mail:<input type="text" name="email"><br>
-      password:<input type="password" name="password"><br>
-      <input type="submit" value="login">
-      <a href="#" class="cancel-login-link">cancel</a><br>
-      No account? No problem! <a href="#" class="login-link">Sign-up</a> for one!
-    </form>
+  </body>
 
-    <form id="signup-form" action="<%=new_registration_path%>" method="POST" class="signup-form">
-      e-mail:<input type="text" name="email"><br>
-      username:<input type="text" name="username"><br>
-      avatar url:<input type="text" name="avatar"><br>
-      password:<input type="password" name="password"><br>
-      Confirm password:<input type="password" name="confirm"><br>
-      <input type="submit" value="signup">
-      <a href="#" class="cancel-signup-link">cancel</a><br>
-    </form>
+
+  </html>
+
+  <!-- template for the user dashboard stories -->
+  <script id="user-deck-template" type="text/x-handlebrs-template">
+  {{#each decks}}
+
+  <div class="deck-display user-deck-display" id="deck-user-display{{deck.id}}">
+
+  <div class="delete-deck-confirmation" id="delete-deck-confirmation{{deck.id}}">
+  Are you sure you want to delete this entire story?<br>
+  <h2>{{deck.name}}</h2>
+  <i>by: {{user.name}}</i>
+  <p>{{deck.tag_line}}</p>
+  <a href="{{deck.id}}" class="confirm-story-delete">Confirm</a>|
+  <a href="{{deck.id}}" class="cancel-story-delete">Cancel</a>
+  </div>
+
+
+  <br>
+  <div id='deck_options{{deck.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a><a href="{{deck.id}}" class="initiate-story-deletion">[x]</a></div>
+  <h2><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></h2>
+
+  <i>by: {{user.name}}</i>
+  <br>
+  <hr>
+  <p>{{deck.tag_line}}</p>
+
+  </div>
+
+
+  {{/each}}
+  </script>
+
+
+  <!-- template for the users dash boards cards -->
+  <script id="user-card-template" type="text/x-handlebrs-template">
+  {{#each cards}}
+  <div class="card-display-template card-display-template{{card.id}}" id="card-display-template{{card.id}}">
+
+  <div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
+  <img class="card-avatar" src={{card.avatar}}>
+  <h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+  <h4>{{card.archetype}}</h4>
+  <p>Are you sure you want to dismiss this character to the community?</p><br>
+
+  <a href="{{card.id}}" class="confirm-character-delete">[Dismiss to community]</a>|
+  <a href="{{card.id}}" class="cancel-character-delete">[Cancel]</a>
+  </div>
+
+
+  <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+  <img class="card-avatar" src={{card.avatar}}>
+  <h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+  <h4>{{card.archetype}}</h4>
+  <i>by: {{user.name}}</i>
+  <p>{{card.bio}}</p>
+  <a href="{{card.id}}" class="close-this-card">close</a>
+  </div>
+
+
+  <br>
+  <div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[dismiss]</a></div>
+  <li><img class="card-avatar card-dash-avatar" src={{card.avatar}}></li><br>
+  <li>
+  <div class="card-temp-info">
+  <h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+  </li>
+  <i>by: {{user.name}}</i>
+  <br>
+  Current story: <b><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></b>
+  <hr>
+  <p>{{card.tag_line}}</p>
+  </div>
+  </div>
+
+
+  {{/each}}
+  </script>
+
+  <!-- template for the character select box modal -->
+  <script id="cast-card-template" type="text/x-handlebrs-template">
+  {{#each cards}}
+
+  <div id="character-selection-box{{card.id}}" class="card-display-template create-new-story-cast-template">
+
+  <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+  <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
+  <h2>{{card.name}}</h2>
+  <h4>{{card.archetype}}</h4>
+  <i>by: {{user.name}}</i>
+  <p>{{card.bio}}</p>
+  <a href="{{card.id}}" class="close-this-card">close</a>
+  </div>
+
+
+
+  <br>
+  <div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="select-this-card">[select]</a></div>
+  <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
+  <h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
+  <h4>{{card.archetype}}</h4>
+  <i>by: <a href="/public_profile/{{user.id}}">{{user.name}}</a></i>
+  <br>
+  <hr>
+  <p>{{card.tag_line}}</p>
+
+  </div>
+
+
+  {{/each}}
+  </script>
+
+
+
+  <!-- template for availiable community cards -->
+  <script id="card-template" type="text/x-handlebrs-template">
+  {{#each cards}}
+
+  <div class="card-display" id="community-card-display{{card.id}}">
+
+  <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+  <div id='card_options{{card.id}}' class="options-box">
+  <a href="{{card.id}}" class="close-this-card">[close]</a>
+  <a href="{{card.id}}" class="claim-this-card-from-community">[claim]</a>
+  </div>
+  <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
+  <h2><a href="/public_character/{{card.id}}" >{{card.name}}</a></h2>
+  <h4>{{card.archetype}}</h4>
+  <i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</a></i>
+  <p>{{card.bio}}</p>
+  <hr>
+
+  Associated stories:<br>
+  {{#each stories}}
+  {{name}}<br>
+
+  {{/each}}
 
 
   </div>
 
-  <% if user_signed_in? %>
-  <!-- modal for character creation -->
-  <div class="create-a-card" id="create-a-card">
-    <form class="new-card-form" id="new-card-form">
-      What is this character called?<br>
-      <input type="text" class="new-character-field" name="name"><br>
-      In one line sell this character to a story teller...<br>
-      <input type="text" class="new-character-field" name="tag_line"><br>
-      What time for place does this character belong to?<br>
-      <input type="text" class="new-character-field" name="setting"><br><br>
-      <!-- <input type="text" class="new-character-field" name="archetype"><br> --><br>
-      What is the archetype your character would typically be used for?<br>
-      <select class="new-character-field"  name="archetype">
-        <option value="Leader">Leader</option>
-        <option value="Romantic interest">Romantic interest</option>
-        <option value="Damsel">Damsel</option>
-        <option value="Comedian">Comedian</option>
-        <option value="Villain">Villain</option>
-        <option value="Hero">Hero</option>
-        <option value="Crusader">Crusader</option>
-        <option value="Sage">Sage</option>
-        <option value="Weasel">Weasel</option>
-        <option value="Loner">Loner</option>
-        <option value="Geek">Geek</option>
-        <option value="Innocent">Innocent</option>
-        <option value="Wildcard">Wildcard</option>
-        <option value="Friend">Friend</option>
-        <option value="Other">Other</option>
-      </select><br>
-      <hr>
-      Which one of your stories (if any) would you like this character for?
-      <select class="which-story-initiate" name="deck_id">
-        <% Deck.where(user_id: current_user.id).each do |story| %>
-        <option value="<%= story.id %>"><%= story.name %></option>
-        <% end  %>
-        <option value="<%= nil %>">None (auto make card public)</option>
-      </select>
-      <hr>
-      Write a short bio for this character<br>
-      <textarea class="new-character-field new-character-bio" name="bio"></textarea><br>
 
-      <input class="submit-button" type="submit" value="create">
-    </form>
 
-    <a href="#" class="hide-char-create-box">Cancel</a>
+  <div class="claim-card-modal" id="claim-card-modal{{card.id}}">
+  <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
+  <h2>{{card.name}}</h2>
+  <h4>{{card.archetype}}</h4>
+  <i>by: {{user.name}}</i>
+  <p>{{card.bio}}</p>
+  <hr>
+
+  <form class="claim-this-card-from-community" action="{{card.id}}">
+  Which story do you want to claim this character for?<br>
+  <select class="list-of-users-stories" name="deck_id">
+  {{#each user_stories}}
+  <option value="{{id}}">{{name}}</option>
+  {{/each}}
+  </select>
+  <input type="hidden" name="card_id" value="{{card.id}}">
+  <input type="submit" value="claim">
+  </form>
+  <hr>
+  <a href="{{card.id}}" class="hide-claim-modal">[cancel]</a>
+  </div>
+
+
+  <div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="pop-up-claim-card-modal">[claim]</a></div>
+  <br>
+  <img class="card-avatar card-dash-avatar" src={{card.avatar}}>
+  <h2><a href="{{card.id}}" class="inspect-this-card">{{card.name}}</a></h2>
+
+  <i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</i>
+  <br>
+  <hr>
+  <p><i>"{{card.tag_line}}"</i></p>
+  <hr>
+  <p>{{card.bio}}</p>
+  </div>
+
+
+  {{/each}}
+  </script>
+
+
+  <!-- template for community stories -->
+  <script id="deck-template" type="text/x-handlebrs-template">
+  {{#each decks}}
+  <div class="deck-display">
+
+  <div class="options-box comm-deck"></div>
+  <img class="template-avatar" src="{{user.avatar}}">
+  <br><br>
+  <h4><a href="/decks/{{deck.id}}">{{deck.name}}</a></h4>
+  <h5>{{deck.setting}} | {{deck.category}}</h5>
+  <i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</a></i>
+  <br>
+  <hr>
+  <p>{{deck.tag_line}}</p>
 
   </div>
-  <% end  %>
 
 
-
-
-  <%= yield %>
-
-</body>
-
-
-</html>
-
-<!-- template for the user dashboard stories -->
-<script id="user-deck-template" type="text/x-handlebrs-template">
-{{#each decks}}
-
-<div class="deck-display user-deck-display" id="deck-user-display{{deck.id}}">
-
-<div class="delete-deck-confirmation" id="delete-deck-confirmation{{deck.id}}">
-Are you sure you want to delete this entire story?<br>
-<h2>{{deck.name}}</h2>
-<i>by: {{user.name}}</i>
-<p>{{deck.tag_line}}</p>
-<a href="{{deck.id}}" class="confirm-story-delete">Confirm</a>|
-<a href="{{deck.id}}" class="cancel-story-delete">Cancel</a>
-</div>
-
-
-<br>
-<div id='deck_options{{deck.id}}' class="options-box"><a href="/edit_deck/{{deck.id}}">[inspect]</a><a href="{{deck.id}}" class="initiate-story-deletion">[x]</a></div>
-<h2><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></h2>
-
-<i>by: {{user.name}}</i>
-<br>
-<hr>
-<p>{{deck.tag_line}}</p>
-
-</div>
-
-
-{{/each}}
-</script>
-
-
-<!-- template for the users dash boards cards -->
-<script id="user-card-template" type="text/x-handlebrs-template">
-{{#each cards}}
-<div class="card-display-template" id="card-display-template{{card.id}}">
-
-<div class="delete-deck-confirmation" id="delete-character-confirmation{{card.id}}">
-<img class="card-avatar" src={{card.avatar}}>
-<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
-<h4>{{card.archetype}}</h4>
-<p>Are you sure you want to dismiss this character to the community?</p><br>
-
-<a href="{{card.id}}" class="confirm-character-delete">[Dismiss to community]</a>|
-<a href="{{card.id}}" class="cancel-character-delete">[Cancel]</a>
-</div>
-
-
-<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
-<img class="card-avatar" src={{card.avatar}}>
-<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
-<h4>{{card.archetype}}</h4>
-<i>by: {{user.name}}</i>
-<p>{{card.bio}}</p>
-<a href="{{card.id}}" class="close-this-card">close</a>
-</div>
-
-
-<br>
-<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="initiate-character-deletion">[dismiss]</a></div>
-<li><img class="card-avatar card-dash-avatar" src={{card.avatar}}></li><br>
-<li>
-<div class="card-temp-info">
-<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
-</li>
-<i>by: {{user.name}}</i>
-<br>
-Current story: <b><a href="/edit_deck/{{deck.id}}">{{deck.name}}</a></b>
-<hr>
-<p>{{card.tag_line}}</p>
-</div>
-</div>
-
-
-{{/each}}
-</script>
-
-<!-- template for the character select box modal -->
-<script id="cast-card-template" type="text/x-handlebrs-template">
-{{#each cards}}
-
-<div id="character-selection-box{{card.id}}" class="card-display-template create-new-story-cast-template">
-
-<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
-<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
-<h4>{{card.archetype}}</h4>
-<i>by: {{user.name}}</i>
-<p>{{card.bio}}</p>
-<a href="{{card.id}}" class="close-this-card">close</a>
-</div>
-
-
-
-<br>
-<div id='deck_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="inspect-this-card">[inspect]</a><a href="{{card.id}}" class="select-this-card">[select]</a></div>
-<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2><a href="/public_character/{{card.id}}">{{card.name}}</a></h2>
-<h4>{{card.archetype}}</h4>
-<i>by: <a href="/public_profile/{{user.id}}">{{user.name}}</a></i>
-<br>
-<hr>
-<p>{{card.tag_line}}</p>
-
-</div>
-
-
-{{/each}}
-</script>
-
-
-
-<!-- template for availiable community cards -->
-<script id="card-template" type="text/x-handlebrs-template">
-{{#each cards}}
-
-<div class="card-display" id="community-card-display{{card.id}}">
-
-<div class="inspect-card-box" id="inspect-card-box{{card.id}}">
-<div id='card_options{{card.id}}' class="options-box">
-<a href="{{card.id}}" class="close-this-card">[close]</a>
-<a href="{{card.id}}" class="claim-this-card-from-community">[claim]</a>
-</div>
-<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2><a href="/public_character/{{card.id}}" >{{card.name}}</a></h2>
-<h4>{{card.archetype}}</h4>
-<i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</a></i>
-<p>{{card.bio}}</p>
-<hr>
-
-Associated stories:<br>
-{{#each stories}}
-{{name}}<br>
-
-{{/each}}
-
-
-</div>
-
-
-
-<div class="claim-card-modal" id="claim-card-modal{{card.id}}">
-<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2>{{card.name}}</h2>
-<h4>{{card.archetype}}</h4>
-<i>by: {{user.name}}</i>
-<p>{{card.bio}}</p>
-<hr>
-
-<form class="claim-this-card-from-community" action="{{card.id}}">
-Which story do you want to claim this character for?<br>
-<select class="list-of-users-stories" name="deck_id">
-{{#each user_stories}}
-<option value="{{id}}">{{name}}</option>
-{{/each}}
-</select>
-<input type="hidden" name="card_id" value="{{card.id}}">
-<input type="submit" value="claim">
-</form>
-<hr>
-<a href="{{card.id}}" class="hide-claim-modal">[cancel]</a>
-</div>
-
-
-<div id='card_options{{card.id}}' class="options-box"><a href="{{card.id}}" class="pop-up-claim-card-modal">[claim]</a></div>
-<br>
-<img class="card-avatar card-dash-avatar" src={{card.avatar}}>
-<h2><a href="{{card.id}}" class="inspect-this-card">{{card.name}}</a></h2>
-
-<i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</i>
-<br>
-<hr>
-<p><i>"{{card.tag_line}}"</i></p>
-<hr>
-<p>{{card.bio}}</p>
-</div>
-
-
-{{/each}}
-</script>
-
-
-<!-- template for community stories -->
-<script id="deck-template" type="text/x-handlebrs-template">
-{{#each decks}}
-<div class="deck-display">
-
-<div class="options-box comm-deck"></div>
-<img class="template-avatar" src="{{user.avatar}}">
-<br><br>
-<h4><a href="/decks/{{deck.id}}">{{deck.name}}</a></h4>
-<h5>{{deck.setting}} | {{deck.category}}</h5>
-<i>by: <a href="/public_profile/{{user.id}}" class="link-to-user-public-profile">{{user.name}}</a></i>
-<br>
-<hr>
-<p>{{deck.tag_line}}</p>
-
-</div>
-
-
-{{/each}}
-</script>
+  {{/each}}
+  </script>
 
 
 

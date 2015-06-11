@@ -85,19 +85,15 @@ body{
 
 .small-avatar{
   position: relative;
-  background-color: white;
+  background-color: #E0F8F1;
   width: 50px;
-  height: 50px;
+  /*height: 50px;*/
   border-radius: 100px;
   border-style: solid;
-  border-color: white;
+  border-color: #E0F8F1;
   overflow: hidden;
 }
 
-.big-avatar{
-  width: 45px;
-  /*height: 100%;*/
-}
 
 .closing-button{
   width: 50px;
@@ -123,7 +119,7 @@ body{
 }
 
 .info-drop{
-    position: absolute;
+  position: absolute;
   width: 25%;
   right: 25%;
   display: none;
@@ -135,7 +131,7 @@ body{
 }
 
 .note-drop{
-    position: fixed;
+  position: fixed;
   width: 25%;
   right: 5%;
   font-size: 10pt;
@@ -185,32 +181,66 @@ li{
   padding: 2%;
 }
 .profile-panel{
-  position: absolute;
-  background-color: transparent;
+  position: fixed;
+  background-color: #0B3861;
   font-size: 25px;
-  /*line-height: 0pt;*/
   float: left;
-  height: 70%;
-  top: 0%;
+  top: 10%;
+  height: 300px;
+  width: 200px;
   overflow: scroll;
-  /*width: 50%;*/
+  z-index: 30;
+  padding: 1%;
+  border-style: solid;
+  line-height: 10px;
+  display: none;
 }
 
 .profile-panel p{
 }
 
 .prfile-sub-text{
-font-size: 10pt;
+  font-size: 10pt;
 }
 
 .control-panel{
   position: absolute;
   float: right;
+  top: 50%;
   right: 5%;
   width: 50%;
   text-align: right;
 }
 
+.player-avatar-container{
+  position: relative;
+  float: left;
+  width: 40%;
+  /*padding: 2%;*/
+  /*border-radius: 100%;*/
+}
+
+.big-avatar{
+  position: relative;
+  top: 0px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: white;
+  float: left;
+  width: 100%;
+  overflow: hidden;
+}
+
+.player-info-dash-box{
+  position: relative;
+  left: 10px;
+  top: 10px;
+  width: 60%;
+  /*line-height: 30px;*/
+  float: right;
+  text-align: left;
+  line-height: 20px;
+}
 
 .profile-user-stories{
   position: relative;
@@ -282,16 +312,16 @@ font-size: 10pt;
 }
 
 .char-select-modal{
-position: fixed;
-height: 40%;
-width: 50%;
-top: 10%;
-left: 20%;
-background-color: white;
-overflow: scroll;
-z-index: 30;
-padding: 3%;
-display: none;
+  position: fixed;
+  height: 40%;
+  width: 50%;
+  top: 10%;
+  left: 20%;
+  background-color: white;
+  overflow: scroll;
+  z-index: 30;
+  padding: 3%;
+  display: none;
 }
 
 
@@ -334,7 +364,7 @@ display: none;
   float: center;
   overflow: scroll;
   padding: 5%;
-    border-radius: 10px;
+  border-radius: 10px;
   border-style: solid;
   border-color: #0B3861;
 }
@@ -352,16 +382,17 @@ display: none;
 
 
 .login-form{
-  position: absolute;
+  position: relative;
   background-color: white;
   padding: 3%;
   display: none;
 }
 
 .signup-form{
-  position: absolute;
+  position: relative;
   background-color: white;
   padding: 3%;
+  right: 10%;
   display: none;
 }
 
@@ -376,17 +407,24 @@ display: none;
 .form{
   position: fixed;
   width: 20%;
-  height: 20%;
-  top: 35%;
+  height: 40%;
+  top: 25%;
   left: 35%;
   margin: 0 auto;
-  text-align: center;
+  text-align: right;
   background-color: white;
   padding: 4%;
   border-style: solid;
   border-color: black;
+  border-radius: 20px;
   display: none;
   z-index: 25;
+}
+
+
+.login-link{
+  position: relative;
+  width: 50%;
 }
 
 .welcome{
@@ -469,7 +507,7 @@ display: none;
 
 
 .published-deck{
-background-color: #81F79F;
+  background-color: #81F79F;
 }
 
 .non-published-deck{
@@ -499,11 +537,11 @@ background-color: #81F79F;
 }
 
 .profile-info{
-float: right;
-position: relative;
-width: 70%;
-height: 100%;
-top: 0%;
+  float: right;
+  position: relative;
+  width: 70%;
+  height: 100%;
+  top: 0%;
 }
 
 .profile-avatar-holder{
@@ -516,8 +554,8 @@ top: 0%;
 
 .card-avatar-mod{
   position: relative;
-height: 40%;
-width: 20%;
+  height: 40%;
+  width: 20%;
 
 }
 
@@ -554,7 +592,7 @@ width: 20%;
   left: 0%;
   width: 90%;
   height: 100%;
-border-radius: 0px;
+  border-radius: 0px;
 
 }
 
@@ -584,7 +622,7 @@ border-radius: 0px;
 }
 
 .card-dash-avatar{
-float: left;
+  float: left;
   border-radius: 10px;
 }
 
@@ -678,24 +716,24 @@ float: left;
 
 
 .published-story{
-background-color:#E0F8F1;
+  background-color:#E0F8F1;
   border-color: white;
   border-style: solid;
 
 }
 
 .non-published-story{
-background-color:#81F79F;
+  background-color:#81F79F;
   border-color: red;
   border-style: solid;
 }
 
 
 .info-page p{
-text-align: justify;
-position: relative;
-width: 70%;
-left: 10%;
+  text-align: justify;
+  position: relative;
+  width: 70%;
+  left: 10%;
 }
 
 .story-display{

@@ -1,4 +1,5 @@
 class CardsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def index
     output=[]
     cards = Card.all.select {|e| e.deck_id == nil}
@@ -16,18 +17,27 @@ class CardsController < ApplicationController
   end
 
   def create
-    c = Card.create(name: params[:name], bio:params[:bio], setting: params[:setting], tag_line: params[:tag_line], deck_id: params[:deck_id], user_id: current_user.id, stories: "", archetype: params[:archetype])
-    render :json => [{user:User.find(c.user_id), card:c,  deck:Deck.find(c.deck_id)}]
+    if params[:deck_id] != '_'
+      c = Card.create(name: params[:name], bio:params[:bio], setting: params[:setting], tag_line: params[:tag_line], deck_id: params[:deck_id], user_id: current_user.id, stories: "", archetype: params[:archetype])
+
+      render :json => [{user:User.find(c.user_id), card:c,  deck:Deck.find(c.deck_id)}]
+    else
+      c = Card.create(name: params[:name], bio:params[:bio], setting: params[:setting], tag_line: params[:tag_line], deck_id: params[:deck_id], user_id: current_user.id, stories: "", archetype: params[:archetype])
+
+      render :json => [{user:User.find(c.user_id), card:c, deck:nil}]
+
+    end
   end
 
+
+# provides all availiable cards
   def user_show
-    u_decks=Deck.where(user_id:current_user.id)
-    cards = Card.all.select {|e| u_decks.map { |f| f.id }.include?(e.deck_id)}
+    # u_decks=Deck.where(user_id:current_user.id)
+    # cards = Card.all.select {|e| u_decks.map { |f| f.id }.include?(e.deck_id)}
+    cards=Card.where(deck_id:nil)
     output=[]
     cards.each do |c|
-      if c.deck_id != nil
-        output << {user:User.find(c.user_id), card:c, deck:Deck.find(c.deck_id)}
-      end
+        output << {user:User.find(c.user_id), card:c}
     end
 
     render :json => output
@@ -93,6 +103,20 @@ class CardsController < ApplicationController
     else
       @story="This character is availiable"
     end
+  end
+
+
+  def user_char_select_modal_characters
+    output=[]
+
+    cards = Card.where(deck_id:nil)
+
+    cards.each do |c|
+      u = User.find(c.user_id)
+      output << {card:c, user:u}
+    end
+
+    render :json => output
   end
 
   def main_show

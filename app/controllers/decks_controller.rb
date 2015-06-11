@@ -1,5 +1,6 @@
 class DecksController < ApplicationController
   # before_action :authenticate_user!
+  skip_before_filter  :verify_authenticity_token
   def create
     new_deck = Deck.create(name: params[:name], story:params[:story] , category:params[:category] , tag_line:params[:tag_line] , setting:params[:setting] , user_id: current_user.id)
     char_ids = params[:current_chars]
@@ -50,7 +51,8 @@ class DecksController < ApplicationController
       @approved_passages = @story.passages.select {|e| e.approved == true}
       @non_approved_passages = @story.passages.select {|e| e.approved == false}
       @author = User.find(@story.user_id)
-      @cards = Card.where(deck_id:nil)#.select {|e| e.deck_id == nil}
+      # @cards = Card.where(deck_id:nil)
+      @cards = Card.all.select {|e| e.deck_id == nil}
     else
       redirect_to '/error'
     end

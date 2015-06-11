@@ -3,6 +3,8 @@
   <a href="#" class="hide-char-select-box"><img class="closing-button char-closing" src="<%= asset_path( 'closing_button_up.png' ) %>"></a>
   <div class="char-select-box" id="char-select-box">
 
+
+
   </div>
 </div>
 <div class="story-created-notification" id="story-created-notification"></div>
@@ -51,6 +53,29 @@ $.ajax({
   var html = template(context);
   $('#char-select-box').html('<div class="card-display-template create-new-story-cast-template new-link"><a href="#" class="create-new-character">Create a new character</a></div>'+html)
 })
+
+  $.ajax({
+    url: '/cards',
+  })
+  .done(function(data) {
+  var context = { cards: data};
+  var source = $("#card-template").html();
+  var template = Handlebars.compile(source);
+  var html = template(context);
+  $('#card-display-area').html(html)
+
+})
+
+  //   $.ajax({
+  //   url: '/user_char_select_modal_characters',
+  // })
+  // .done(function(data) {
+  //   var context = { cards: data};
+  //   var source = $("#new-char-modal-character-list-template").html();
+  //   var template = Handlebars.compile(source);
+  //   var html = template(context);
+  //   $('#char-select-box').html(html)
+  // })
 
 
 </script>

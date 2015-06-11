@@ -1,193 +1,210 @@
 <div class="story-created-notification" id="story-created-notification"></div>
 <div class="hidden" id="story_id_info" id2="<%= params[:id] %>"></div>
 
-    <% if @story.public == true %>
-  <div class="story-status-notification published-story" id="story-status-notification">
-    <b>Published.</b> <br><a href="<%= @story.id %>" class="unpublish-current-deck-link">Un-publish</a><br>
-  </div>
-    <% else  %>
-  <div class="story-status-notification non-published-story" id="story-status-notification">
-    <b>Non-published </b><br><a href="<%= @story.id %>" class="publish-current-deck-link">Publish</a>
-  </div>
-    <% end  %>
+<% if @story.public == true %>
+<div class="story-status-notification published-story" id="story-status-notification">
+  <b>Published.</b> <br><a href="<%= @story.id %>" class="unpublish-current-deck-link">Un-publish</a><br>
+</div>
+<% else  %>
+<div class="story-status-notification non-published-story" id="story-status-notification">
+  <b>Non-published </b><br><a href="<%= @story.id %>" class="publish-current-deck-link">Publish</a>
+</div>
+<% end  %>
 
 
-  <!-- refactor into handle bars -->
-    <% if @story.public == true %>
+<!-- refactor into handle bars -->
+<% if @story.public == true %>
 <div class="whole-story-display published-story" id="story-container">
   <div class="current-cast-of-characters" id="current-cast-of-characters">
     Current cast list: <br>
-      <div class="story-cast-list new-link new-link-char" style="display:none">
-        <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
-      </div>
-        <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
-        {{#each cards}}
-              <div class="story-cast-list" id="story-cast-list{{id}}">
+    <div class="story-cast-list new-link new-link-char" style="display:none">
+      <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
+    </div>
+    <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
+    {{#each cards}}
+    <div class="story-cast-list" id="story-cast-list{{id}}">
 
 
-                    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
-                    <img class="card-avatar" src={{avatar}}>
-                      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
-                      <i>  {{archetype}}</i>
-                      <hr>
-                      <i>  {{tag_line}}</i>
-                      <hr>
-                      <p> {{bio}} </p>
-                        <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
-                      <div class="options-box">
-                        </div>
-                    </div>
+    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
+    <img class="card-avatar" src={{avatar}}>
+    <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
+    <i>  {{archetype}}</i>
+    <hr>
+    <i>  {{tag_line}}</i>
+    <hr>
+    <p> {{bio}} </p>
+    <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
+    <div class="options-box">
+    </div>
+    </div>
 
 
-                    <img class="card-avatar" src={{avatar}}>
-                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
-                <i>{{archetype}}</i>
-                <br>
-                <div class="options-box" style="display:none"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
-              </div>
-        {{/each}}
-        </script>
+    <img class="card-avatar" src={{avatar}}>
+    <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+    <i>{{archetype}}</i>
+    <br>
+    <div class="options-box" style="display:none"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
+    </div>
+    {{/each}}
+    </script>
 
-      </div>
-    <!-- </div> -->
-    <% else %>
-    <div class="whole-story-display non-published-story" id="story-container">
-      <div class="current-cast-of-characters" id="current-cast-of-characters">
-    Current cast list: <br>
+  </div>
+  <!-- </div> -->
+  <% else %>
+  <div class="whole-story-display non-published-story" id="story-container">
+    <div class="current-cast-of-characters" id="current-cast-of-characters">
+      Current cast list: <br>
       <div class="story-cast-list new-link new-link-char">
         <a href="<%= @story.id %>" class="pop-up-char-select-modal" id="pop-up-char-select-modal-addone">Add a new character</a>
       </div>
-        <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
-        {{#each cards}}
+      <script id="edit-page-character-list-template" type="text/x-handlebrs-template">
+      {{#each cards}}
 
-                    <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
-                    <img class="card-avatar" src={{avatar}}>
-                      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
-                      <i>  {{archetype}}</i>
-                      <hr>
-                      <i>  {{tag_line}}</i>
-                      <hr>
-                      <p> {{bio}} </p>
-                        <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
-                      <div class="options-box">
-                        <a href="{{id}}" class="remove-inspect-card-in-edit-page">[remove character from story]</a>
-                        </div>
-                    </div>
+      <div class="inspect-card-box" id="inspect-edit-card-box{{id}}">
+      <img class="card-avatar" src={{avatar}}>
+      <h4><a href="/public_character/{{id}}">  {{name}}</a></h4>
+      <i>  {{archetype}}</i>
+      <hr>
+      <i>  {{tag_line}}</i>
+      <hr>
+      <p> {{bio}} </p>
+      <a href="{{id}}" class="hide-inspect-card-in-edit-page">[close]</a>
+      <div class="options-box">
+      <a href="{{id}}" class="remove-inspect-card-in-edit-page">[remove character from story]</a>
+      </div>
+      </div>
 
 
-              <div class="story-cast-list" id="story-cast-list{{id}}">
-              <img class="card-avatar" src={{avatar}}>
-                <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
-                <i>{{archetype}}</i>
-                <br>
-                <div class="options-box"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
-              </div>
-        {{/each}}
-        </script>
-  </div>
-  <!-- </div> -->
+      <div class="story-cast-list" id="story-cast-list{{id}}">
+      <img class="card-avatar" src={{avatar}}>
+      <h4><a href="{{id}}" class="inspect-card-in-edit-page">{{name}}</a></h4>
+      <i>{{archetype}}</i>
+      <br>
+      <div class="options-box"><a href="{{id}}" class="remove-character-from-story">[Remove this character]</a></div>
+      </div>
+      {{/each}}
+      </script>
+    </div>
+    <!-- </div> -->
     <% end %>
 
 
 
-  <!-- refact -->
+    <!-- refact -->
 
-  <hr>
-  <h2><%= @story.name %></h2>
-  By <%= @author.name %>
+    <hr>
+    <h2><%= @story.name %></h2>
+    By <%= @author.name %>
 
-  <div class="passage approved">
-    <%=  @story.story %>
-  </div>
+    <div class="passage approved">
+      <%=  @story.story %>
+    </div>
 
-  <% @approved_passages.each do |pass|  %>
-  <div class="passage approved">
-    <%=  pass.content %>
-  </div>
-  <% end %>
-  <div id="app_pass">
+    <% @approved_passages.each do |pass|  %>
+    <div class="passage approved">
+      <%=  pass.content %>
+    </div>
+    <% end %>
+    <div id="app_pass">
 
-  </div>
-  <h3>Pending passages:</h3>
-  <div class="not-app-box" id="not-app-box">
-    <% @non_approved_passages.each do |pass|  %>
-    <p><div class="passage not_approved" id="nonapprovedpassage<%= pass.id %>">
-      <%=  pass.content%>
-      <hr>
-      <img class="template-avatar passage-avatar" src="<%=User.find(pass.user_id).avatar%>">
-      <div class="passage-author-box">
-        <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
-      </div>
-      <% if @story.public == true %>
+    </div>
+    <h3>Pending passages:</h3>
+    <div class="not-app-box" id="not-app-box">
+      <% @non_approved_passages.each do |pass|  %>
+      <p><div class="passage not_approved" id="nonapprovedpassage<%= pass.id %>">
+        <%=  pass.content%>
+        <hr>
+        <img class="template-avatar passage-avatar" src="<%=User.find(pass.user_id).avatar%>">
+        <div class="passage-author-box">
+          <i>Author:  <a href="" class="user/public<%=pass.user_id%>"><%=User.find(pass.user_id).name%></a></i>
+        </div>
+        <% if @story.public == true %>
         <div class="options-box" style="display:none">
           <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
           <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
         </div>
-      <% else %>
-              <div class="options-box">
+        <% else %>
+        <div class="options-box">
           <a href="<%= pass.id %>" class="approve-passage-link">[approve]</a>
           <a href="<%= pass.id %>" class="dismiss-passage-link">[dismiss]</a>
         </div>
+        <% end %>
+      </div></p>
       <% end %>
-    </div></p>
-    <% end %>
+      <br><br><br>
+
+    </div>
     <br><br><br>
-
   </div>
-  <br><br><br>
-</div>
 
 
-<!-- char select modal -->
+  <!-- char select modal -->
 
-<div class="char-select-modal" id="char-select-modal">
-  <div class="options-box"><a href="#" class="close-char-select-modal">close</a>
-    <h2>Availiable characters</h2>
-    <% @cards.each do |char| %>
+  <div class="char-select-modal" id="char-select-modal">
 
 
-    <div class="card-display-template modal-mode" id="aloted-card-display-template{{char.id}}">
+    <div class="options-box"><a href="#" class="close-char-select-modal">close</a>
+      <h2>Availiable characters</h2>
 
-      <div class="inspect-card-box" id="inspect-card-box<%= char.id %>">
-        <h4><%=  char.name%></h4>
-        <i><%=  char.archetype%></i>
-        <hr>
-        Original Author: <i><%=  User.find(char.user_id).name%></i>
-        <hr>
-        <p><%= char.bio %></p>
-        <div class="options-box">
-          <a href="<%= char.id %>" class="hide-inspect-card-in-char-select-modal">[close]</a> <a href="<%= char.id %>" class="add-inspect-card-in-char-select-modal">[add character to story]</a></div>
-        </div>
+      <script id="new-char-modal-character-list-template" type="text/x-handlebrs-template">
 
 
-        <a href="<%= char.id %>" class="inspect-card-in-char-select-modal"><%=  char.name%></a>
-        <hr>
-        by: <i><%= User.find(char.user_id).name %></i>
-        <%=  char.tag_line%>
-        <br>
-        <a href="<%= char.id %>" class="add-inspect-card-in-char-select-modal">[add character to story]</a>
+      {{#each cards}}
+
+      <div class="card-display-template modal-mode" id="aloted-card-display-template{{card.id}}">
+
+      <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+      <h4>{{card.name}}</h4>
+      <i>{{card.archetype}}</i>
+      <hr>
+      Original Author: <i>{{user.name}}</i>
+      <hr>
+      <p>{{card.bio}}</p>
+      <div class="options-box">
+      <a href="{{card.id}}" class="hide-inspect-card-in-char-select-modal">[close]</a> <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a></div>
+      </div>
+
+
+      <a href="{{card.id}}" class="inspect-card-in-char-select-modal">{{card.name}}</a>
+      <hr>
+      by: <i>{{user.name}}</i>
+      {{card.tag_line}}
+      <br>
+      <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a>
 
       </div>
 
-      <% end %>
-
+      {{/each}}
+      </script>
 
     </div>
   </div>
 
 
-<script type="text/javascript">
+  <script type="text/javascript">
 
-$.ajax({
-  url: '/story_cards/'+$("#story_id_info").attr('id2'),
-})
-.done(function(data) {
-  var context = { cards: data};
-  var source = $("#edit-page-character-list-template").html();
-  var template = Handlebars.compile(source);
-  var html = template(context);
-  $('#current-cast-of-characters').append(html)
-})
+  $.ajax({
+    url: '/story_cards/'+$("#story_id_info").attr('id2'),
+  })
+  .done(function(data) {
+    var context = { cards: data};
+    var source = $("#edit-page-character-list-template").html();
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    $('#current-cast-of-characters').append(html)
+  })
+
+  $.ajax({
+    url: '/user_char_select_modal_characters',
+  })
+  .done(function(data) {
+    var context = { cards: data};
+    var source = $("#new-char-modal-character-list-template").html();
+    var template = Handlebars.compile(source);
+    var html = template(context);
+    $('#char-select-modal').html(html)
+  })
 
 
-</script>
+
+  </script>

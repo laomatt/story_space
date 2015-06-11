@@ -6,10 +6,13 @@ Rails.application.routes.draw do
   get '/faq' => 'home#faq'
   get '/public_profile/:id' => 'decks#public_profile'
   get '/public_character/:id' => 'cards#public_show'
+  get '/user_char_select_modal_characters' =>'cards#user_char_select_modal_characters'
 
   get '/users/show_cards/:id' => 'users#show_cards'
   get '/users/show_decks/:id' => 'users#show_decks'
   get '/users/show_passages/:id' => 'users#show_passages'
+
+  get '/login_with_google' => 'google#google_login'
 
   patch '/claim_card_for_deck' => 'cards#claim_for_deck'
   patch '/claim_card_for_deck_from_public' => 'cards#claim_for_deck_from_public'

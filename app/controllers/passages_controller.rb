@@ -1,4 +1,5 @@
 class PassagesController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def create
     newpass = Passage.create(user_id:params[:userid], deck_id:params[:storyid], content:params[:content])
     render :json => newpass

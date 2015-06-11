@@ -18,6 +18,8 @@
 
 
 $(document).on("page:change", function(){
+
+
   var current_user_id = $("#users_info").attr("user_id")
   var firebase_notes = new Firebase("https://create-a-alot.firebaseIO.com")
   var values= 0
@@ -33,13 +35,31 @@ $(document).on("page:change", function(){
         $("#note-drop").append('<li><a href="/edit_deck/'+snapshot.val().story+'" story_id="'+snapshot.val().story+'" class="note-story-link-check">'+snapshot.val().note+'</a></li><br><hr>')
       });
     }
-    })
+  })
 
 
-$('body').on('click', '.note-story-link-check', function(event) {
-  var id = $(this).attr('story_id');
-  firebase_hash[id].remove();
-});
+
+  $(function(){
+    $("#profile-panel").draggable()
+
+  })
+
+  $('body').on('click', '.note-story-link-check', function(event) {
+    var id = $(this).attr('story_id');
+    firebase_hash[id].remove();
+  });
+
+  $('body').on('click', '.hide-profile-button', function(event) {
+    event.preventDefault();
+    $("#profile-panel").slideUp(500)
+  });
+
+  $('body').on('click', '.show-player-dash', function(event) {
+    event.preventDefault();
+    $("#profile-panel").slideDown(500, function() {
+
+    });
+  });
 
 
   $('body').on('click', '.login-link', function(event) {
@@ -67,7 +87,7 @@ $('body').on('click', '.note-story-link-check', function(event) {
     $("#note-drop").slideDown('700', function() {});
     $("#note-drop").on('mouseleave', function(event) {
       event.preventDefault();
-      $(this).slideUp("700")
+      $(this).slideUp(700)
     });
   });
 
@@ -77,7 +97,7 @@ $('body').on('click', '.note-story-link-check', function(event) {
     $("#info-drop").slideDown('700', function() {});
     $("#info-drop").on('mouseleave', function(event) {
       event.preventDefault();
-      $(this).slideUp("700")
+      $(this).slideUp(700)
     });
   });
 
@@ -85,13 +105,17 @@ $('body').on('click', '.note-story-link-check', function(event) {
 
   $('body').on('click', '.signup-link', function(event) {
     event.preventDefault();
-    $('.signup-form').css('display','block')
-    $('.form').css('display','block')
+    $('.form').slideDown('500', function() {
+      $(".signup-form").fadeIn(600, function() {
+      });
+    });
   });
   $('body').on('click', '.cancel-signup-link', function(event) {
     event.preventDefault();
-    $('.signup-form').css('display','none')
-    $('.form').css('display','none')
+    $('.signup-form').fadeOut(600, function() {
+
+    $('.form').slideUp(700)
+    });
   });
 
 
@@ -236,6 +260,8 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
 
   })
 });
+
+
 //send a new character to the DB (create new card)
 
 $('body').on('submit', '.new-card-form', function(event) {
@@ -248,19 +274,30 @@ $('body').on('submit', '.new-card-form', function(event) {
   })
   .done(function(data) {
     $('#create-a-card').slideUp(700)
+
     var context = { cards: data};
+
     var source = $("#user-card-template").html();
+    var source2 = $("#cast-card-template").html();
+
     var template = Handlebars.compile(source);
+    var template2 = Handlebars.compile(source2);
+
     var html = template(context);
+    var html2 = template(context2);
+
+
     $('#current-cards').append(html)
-    $("#card-display-template"+data[0].card.id).css('display','none')
-    $("#card-display-template"+data[0].card.id).fadeIn(700, function() {});
+    $("#char-select-box").append(html2)
+    $(".card-display-template"+data[0].card.id).css('display','none')
+    $(".card-display-template"+data[0].card.id).fadeIn(700, function() {});
     that.trigger('reset')
     // debugger
   })
-
-
 });
+
+
+//send a new character to the DC and send it back to the
 
 
 //pops up char select modal
