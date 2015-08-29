@@ -32,7 +32,7 @@ $(document).on("page:change", function(){
       values+=1
       $("#nav-bar-updates-note").slideDown('800', function() {
         $("#nav-bar-updates-note").text(values)
-        $("#note-drop").append('<li><a href="/edit_deck/'+snapshot.val().story+'" story_id="'+snapshot.val().story+'" class="note-story-link-check">'+snapshot.val().note+'</a></li><br><hr>')
+        $("#note-drop").append('<li class="note-drop-item"><a href="/edit_deck/'+snapshot.val().story+'" story_id="'+snapshot.val().story+'" class="note-story-link-check">'+snapshot.val().note+'</a></li><br><hr>')
       });
     }
   })
@@ -84,15 +84,16 @@ $(document).on("page:change", function(){
 
   $('header').on('click', '.note-drop-link', function(event) {
     event.preventDefault();
-    $("#note-drop").slideDown('700', function() {});
+    if($(".note-drop-item").length > 0){
+      $("#note-drop").slideDown('700', function() {});
+    }
     $("#note-drop").on('mouseleave', function(event) {
       event.preventDefault();
       $(this).slideUp(700)
     });
   });
 
-
-  $('header').on('click', '.informaion-drop-link', function(event) {
+  $('header').on('click', '.information-drop-link', function(event) {
     event.preventDefault();
     $("#info-drop").slideDown('700', function() {});
     $("#info-drop").on('mouseleave', function(event) {
@@ -101,7 +102,23 @@ $(document).on("page:change", function(){
     });
   });
 
+  $('header').on('click', '.control-panel-link', function(event) {
+    $(this).css('backgroundColor', '#F5DA81');
+  });
 
+  $('header').on('mouseleave', '.drop-list', function(event) {
+    event.preventDefault();
+    $(this).slideUp(500, function(){
+      $('.control-panel-link').css('backgroundColor', 'transparent');
+    })
+  });
+
+  $('header').on('mouseleave', '.control-panel-link', function(event) {
+    event.preventDefault();
+    $('.drop-list').slideUp(500, function(){
+    $('.control-panel-link').css('backgroundColor', 'transparent');
+    })
+  });
 
   $('body').on('click', '.signup-link', function(event) {
     event.preventDefault();
@@ -216,39 +233,19 @@ $('body').on('submit', '.create-new-deck', function(event) {
 
 
 
-//makes a deck public
+//makes a deck public or private
 
-$('body').on('click', '.publish-current-deck-link', function(event) {
+$('body').on('click', '#story-status-notification', function(event) {
   event.preventDefault();
-
-  var id = $(this).attr('href');
-  $.ajax({
-    url: '/deck_publish/'+id,
-    type: 'PATCH',
-  })
-  .done(function(data) {
-    $('#story-status-notification').html('<b>Published.</b> <br> <a href="'+id+'" class="unpublish-current-deck-link">Un-publish</a><br>')
-    $(".new-link-char").slideUp('800', function() {
-
-      $(".options-box").fadeOut('700', function() {
-
-        document.getElementById("story-container").className="whole-story-display published-story"
-        document.getElementById("story-status-notification").className="story-status-notification published-story"
-      });
-    });
-  })
-});
-
-//makes a deck private
-$('body').on('click', '.unpublish-current-deck-link', function(event) {
-  event.preventDefault();
-  var id = $(this).attr('href');
-  $.ajax({
+  var mode = $(this).attr('public');
+  var id = $(this).attr('storyid');
+  if(mode == 'true'){
+     $.ajax({
     url: '/deck_unpublish/'+id,
     type: 'PATCH',
   })
   .done(function(data) {
-    $('#story-status-notification').html('<b>Non-published </b><br><a href="'+id+'" class="publish-current-deck-link">Publish</a>')
+    $('#story-status-notification').attr('public', 'false');
     // $(".new-link-char").css('display','block')
     $(".new-link-char").slideDown('800', function() {
     // $(".options-box").css('display','block')
@@ -259,8 +256,24 @@ $('body').on('click', '.unpublish-current-deck-link', function(event) {
   });
 
   })
-});
+  }
+  else{
+  $.ajax({
+    url: '/deck_publish/'+id,
+    type: 'PATCH',
+  })
+  .done(function(data) {
+    $('#story-status-notification').attr('public', 'true');
+    $(".new-link-char").slideUp('800', function() {
+      $(".options-box").fadeOut('700', function() {
+        document.getElementById("story-container").className="whole-story-display published-story"
+        document.getElementById("story-status-notification").className="story-status-notification published-story"
+      });
+    });
+  })
+  }
 
+});
 
 //send a new character to the DB (create new card)
 
@@ -304,13 +317,12 @@ $('body').on('submit', '.new-card-form', function(event) {
 $('body').on('click', '.pop-up-char-select-modal', function(event) {
   event.preventDefault();
   $("#char-select-modal").slideDown(500, function() {});
-
 });
 
 //close char select modal
 $('body').on('click', '.close-char-select-modal', function(event) {
   event.preventDefault();
-  $("#char-select-modal").slideUp(500)
+  $("#char-select-modal").slideUp(500);
 });
 
 //inspects card in edit page

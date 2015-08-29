@@ -2,12 +2,10 @@
 <div class="hidden" id="story_id_info" id2="<%= params[:id] %>"></div>
 
 <% if @story.public == true %>
-<div class="story-status-notification published-story" id="story-status-notification">
-  <b>Published.</b> <br><a href="<%= @story.id %>" class="unpublish-current-deck-link">Un-publish</a><br>
+<div storyid="<%= @story.id %>" public="true" class="story-status-notification published-story" id="story-status-notification">
 </div>
 <% else  %>
-<div class="story-status-notification non-published-story" id="story-status-notification">
-  <b>Non-published </b><br><a href="<%= @story.id %>" class="publish-current-deck-link">Publish</a>
+<div storyid="<%= @story.id %>" public="false" class="story-status-notification non-published-story" id="story-status-notification">
 </div>
 <% end  %>
 
@@ -141,41 +139,42 @@
   <!-- char select modal -->
 
   <div class="char-select-modal" id="char-select-modal">
-
-
     <div class="options-box"><a href="#" class="close-char-select-modal">close</a>
       <h2>Availiable characters</h2>
-
-      <script id="new-char-modal-character-list-template" type="text/x-handlebrs-template">
-
-
-      {{#each cards}}
-
-      <div class="card-display-template modal-mode" id="aloted-card-display-template{{card.id}}">
-
-      <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
-      <h4>{{card.name}}</h4>
-      <i>{{card.archetype}}</i>
-      <hr>
-      Original Author: <i>{{user.name}}</i>
-      <hr>
-      <p>{{card.bio}}</p>
-      <div class="options-box">
-      <a href="{{card.id}}" class="hide-inspect-card-in-char-select-modal">[close]</a> <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a></div>
-      </div>
-
-
-      <a href="{{card.id}}" class="inspect-card-in-char-select-modal">{{card.name}}</a>
-      <hr>
-      by: <i>{{user.name}}</i>
-      {{card.tag_line}}
       <br>
-      <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a>
+      <div id="inner-char-select-modal" class="inner-char-select-modal">
+        <script id="new-char-modal-character-list-template" type="text/x-handlebrs-template">
 
+
+        {{#each cards}}
+
+        <div class="card-display-template modal-mode" id="aloted-card-display-template{{card.id}}">
+
+        <div class="inspect-card-box" id="inspect-card-box{{card.id}}">
+        <h4>{{card.name}}</h4>
+        <i>{{card.archetype}}</i>
+        <hr>
+        Original Author: <i>{{user.name}}</i>
+        <hr>
+        <p>{{card.bio}}</p>
+        <div class="options-box">
+        <a href="{{card.id}}" class="hide-inspect-card-in-char-select-modal">[close]</a> <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a></div>
+        </div>
+
+
+        <a href="{{card.id}}" class="inspect-card-in-char-select-modal">{{card.name}}</a>
+        <hr>
+        by: <i>{{user.name}}</i>
+        {{card.tag_line}}
+        <br>
+        <a href="{{card.id}}" class="add-inspect-card-in-char-select-modal">[add character to story]</a>
+
+        </div>
+
+        {{/each}}
+        </script>
       </div>
-
-      {{/each}}
-      </script>
+      <a href="#" class="close-char-select-modal">Cancel</a>
 
     </div>
   </div>
@@ -202,7 +201,7 @@
     var source = $("#new-char-modal-character-list-template").html();
     var template = Handlebars.compile(source);
     var html = template(context);
-    $('#char-select-modal').html(html)
+    $('#inner-char-select-modal').html(html)
   })
 
 

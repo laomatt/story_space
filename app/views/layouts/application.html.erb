@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Create a Lot</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -34,48 +35,57 @@
       <a href="#" class="hide-profile-button">[close]</a>
     </div>
 
+    <div class="control-panel">
+      <li class="control-panel-link">
+        <a class="information-drop-link header-link" href="#"><img class="small-avatar" title="Information" src="<%= asset_path( 'info.png' ) %>"></a>
+        <div class="info-drop drop-list" id="info-drop">
+          <ul>
+            <li><a class="faq-link" href="/faq">FAQ</a></li><br>
+            <hr>
+            <li><a class="howitworks-link" href="/info">How this all works</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="control-panel-link">
+        <a href="#">
+        <img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>">
+        </a>
+      </li>
+      <li class="control-panel-link">
+        <a class="note-drop-link header-link" href="#">
+          <img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>">
+        </a>
+          <div class="nav-bar-updates-note" id="nav-bar-updates-note"></div>
+          <div class="note-drop drop-list" id="note-drop"></div>
+      </li>
+
+      <li class="control-panel-link">
+        <a class="comm-drop-link header-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a>
+        <div class="comm-drop drop-list" id="comm-drop">
+          <ul>
+            <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
+            <hr>
+            <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
+          </ul>
+        </div>
+      </li>
+
+
+      <li class="control-panel-link">
+        <a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a>
+      </li>
+    </div>
+
+    <%else%>
+
+
+    <div class="profile-panel">
+      <li> No User signed in </li>
+
+    </div>
+
 
     <div class="control-panel">
-      <li><a class="informaion-drop-link" href="#"><img class="small-avatar" title="Information" src="<%= asset_path( 'info.png' ) %>"></a></li>
-      <li><img class="small-avatar" title="Messages" src="<%= asset_path( 'mail.png' ) %>"></a></li>
-      <li>
-        <a class="note-drop-link" href="#">
-          <img class="small-avatar" title="Notifications" src="<%= asset_path( 'bell-off.png' ) %>">
-          <div class="nav-bar-updates-note" id="nav-bar-updates-note"></div>
-        </a></li>
-
-        <li><a class="comm-drop-link" href="#"><img class="small-avatar" title="Community" src="<%= asset_path( 'comm.png' ) %>"></a></li>
-
-        <div class="comm-drop" id="comm-drop">
-          <li><a class="comm-link" href="/comm_page">Browse Published Stories</a></li><br>
-          <hr>
-          <li><a class="char-link" href="/char_page">Browse Availiable Characters</a></li>
-        </div>
-
-        <div class="note-drop" id="note-drop"></div>
-
-
-
-        <div class="info-drop" id="info-drop">
-          <li><a class="faq-link" href="/faq">FAQ</a></li><br>
-          <hr>
-          <li><a class="howitworks-link" href="/info">How this all works</a></li>
-        </div>
-
-
-        <li><a class="logout-link" href="/users/log_out"><img class="small-avatar" title="Logout" src="<%= asset_path( 'logout.png' ) %>"></a></li>
-      </div>
-
-      <%else%>
-
-
-      <div class="profile-panel">
-        <li> No User signed in </li>
-
-      </div>
-
-
-      <div class="control-panel">
 
       <form method="GET" action="<%=new_user_session_path%>">
         e-mail:<input type="text" name="email">
@@ -83,15 +93,15 @@
         <input type="submit" value="login">
       </form>
 
-       <li>  <a href="#" class="login-link">login</a></li>
-       <li> <a href="#" class="signup-link">sign-up</a></li>
-     </div>
-     <%end%>
+      <li>  <a href="#" class="login-link">login</a></li>
+      <li> <a href="#" class="signup-link">sign-up</a></li>
+    </div>
+    <%end%>
 
-   </header>
-   <br><br>
+  </header>
+  <br><br>
 
-   <body>
+  <body>
     <!-- modal for login and sign up -->
     <div class="form">
 
